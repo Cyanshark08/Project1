@@ -23,7 +23,7 @@ inline int32_t DynamicDataSet::At(size_t p_Index) const
 }
 
 //  
-// Intertion Sort 
+// Insertion Sort 
 //
 inline void DynamicDataSet::Insert(int32_t p_NewDataPoint)
 {
