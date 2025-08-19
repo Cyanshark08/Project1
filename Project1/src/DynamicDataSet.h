@@ -85,6 +85,8 @@ public:
 	*/
 	std::string to_string() const;
 
+	~DynamicDataSet();
+
 //Exception Errors
 public:
 

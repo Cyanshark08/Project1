@@ -179,6 +179,11 @@ std::string DynamicDataSet::to_string() const
 	return ss.str();
 }
 
+DynamicDataSet::~DynamicDataSet()
+{
+	delete[] m_DataPtr;
+}
+
 
 inline DynamicDataSet::operator std::string() const
 {
