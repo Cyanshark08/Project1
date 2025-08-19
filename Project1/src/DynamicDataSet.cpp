@@ -193,7 +193,7 @@ inline DynamicDataSet::operator std::string() const
 
 
 
-inline int32_t DynamicDataSet::operator[](size_t p_Index) const
+int32_t DynamicDataSet::operator[](size_t p_Index) const
 {
 	return this->At(p_Index);
 }
