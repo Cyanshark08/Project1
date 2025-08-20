@@ -24,3 +24,8 @@ std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSe
     return ss.str();
 
 }
+
+void CalculationManager::SetConfig(ECaluclatorConfig p_NewConfig)
+{
+    m_Config = p_NewConfig;
+}

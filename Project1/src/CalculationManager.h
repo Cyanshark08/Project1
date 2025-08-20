@@ -18,6 +18,10 @@ enum class EQuartile
 class CalculationManager
 {
 public:
+
+	void SetConfig(ECaluclatorConfig p_NewConfig);
+
+//Calculation Methods
 	float FindMin(const DynamicDataSet& p_DataSet);
 	float FindMax(const DynamicDataSet& p_DataSet);
 	float FindRange(const DynamicDataSet& p_DataSet);
@@ -30,6 +34,7 @@ public:
 	float FindVariance(const DynamicDataSet& p_DataSet);
 	float FindMidRange(const DynamicDataSet& p_DataSet);
 	std::tuple<float, float, float> FindQuartiles(const DynamicDataSet& p_DataSet);
+	float FindQuartile(EQuartile p_QuartileNum, const DynamicDataSet& p_DataSet);
 	float FindInterquartileRange(const DynamicDataSet& p_DataSet);
 	DynamicDataSet FindOutliers(const DynamicDataSet& p_DataSet);
 	float FindSumOfSquares(const DynamicDataSet& p_DataSet);
@@ -44,7 +49,7 @@ public:
 	std::string GetFrequencyTable(const DynamicDataSet& p_DataSet);
 
 private:
-	ECaluclatorConfig s_State;
+	ECaluclatorConfig m_Config;
 
 };
 

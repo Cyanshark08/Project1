@@ -1,11 +1,15 @@
 #include "DynamicDataSet.h"
 #include "CalculationManager.h"
+#include "ConsoleApp.h"
 
 int main()
 {
-	DynamicDataSet t;
-	t.InsertRandom(50);
+	ConsoleApp app;
 
-	printf("%s", t.to_string().c_str());
-	printf("%s", CalculationManager::GetFrequencyTable(t).c_str());
+	do
+	{
+		app.DisplayAppMenu();
+	}
+	while (app.GetState() != EAppState::Closed);
+
 }
