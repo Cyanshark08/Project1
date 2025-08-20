@@ -14,6 +14,7 @@ class ConsoleApp
 public:
 	ConsoleApp();
 	void DisplayAppMenu();
+	void DisplaySubMenu();
 	EAppState GetState() const;
 	~ConsoleApp();
 
