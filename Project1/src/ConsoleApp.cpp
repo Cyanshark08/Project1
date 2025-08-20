@@ -4,14 +4,53 @@ ConsoleApp::ConsoleApp()
 	: m_AppState(EAppState::Intro)
 {}
 
-void ConsoleApp::DisplayAppMenu()
+void ConsoleApp::ManageAppState()
 {
-	//TODO: Move Menu Here
+	switch (m_AppState)
+	{
+	case EAppState::Intro:
+		printf("\n\tWhat are descriptive statistics?");
+		printf("\n\n\tDescriptive statistics summarize certain aspects of a data set (Sample or Population)");
+		printf("\n\tusing numeric calculations.");
+		printf("\n\n\thttps://www.calculatorsoup.com/calculators/statistics/descriptivestatistics.php");
+		printf("\n\n");
+		system("pause");
+		break;
+
+	case EAppState::Running:
+		DisplayMenu();
+		break;
+
+	case EAppState::Closed:
+		this->Clean();
+		break;
+	}
 }
 
-void ConsoleApp::DisplaySubMenu()
+void ConsoleApp::DisplayMenu() const
 {
-	//TODO: idk
+
+	switch (m_MenuState)
+	{
+	case EMenuState::Main:
+		
+		break;
+
+	case EMenuState::Insert:
+		break;
+
+	case EMenuState::Delete:
+
+		break;
+
+	case EMenuState::Configure:
+
+		break;
+
+	default:
+
+		break;
+	}
 }
 
 EAppState ConsoleApp::GetState() const
@@ -19,7 +58,7 @@ EAppState ConsoleApp::GetState() const
 	return m_AppState;
 }
 
-ConsoleApp::~ConsoleApp()
+void ConsoleApp::Clean()
 {
 	m_DataSet.Clean();
 }

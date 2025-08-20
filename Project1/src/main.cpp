@@ -21,12 +21,6 @@ void deleteMenu(); // accepts statistics class
 int main(void)
 {
 	// display the information
-	cout << "\n\tWhat are descriptive statistics?";
-	cout << "\n\n\tDescriptive statistics summarize certain aspects of a data set (Sample or Population)";
-	cout << "\n\tusing numeric calculations.";
-	cout << "\n\n\thttps://www.calculatorsoup.com/calculators/statistics/descriptivestatistics.php";
-	cout << "\n\n";
-	system("pause");
 
 	do
 	{

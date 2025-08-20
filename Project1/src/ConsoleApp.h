@@ -9,19 +9,28 @@ enum class EAppState
 	Closed
 };
 
+enum class EMenuState
+{
+	Main,
+	Insert,
+	Delete,
+	Configure
+};
+
 class ConsoleApp
 {
 public:
 	ConsoleApp();
-	void DisplayAppMenu();
-	void DisplaySubMenu();
+	void ManageAppState();
+	void DisplayMenu() const;
 	EAppState GetState() const;
-	~ConsoleApp();
+	void Clean();
 
 private:
 	CalculationManager m_CManager;
 	DynamicDataSet m_DataSet;
 	EAppState m_AppState;
+	EMenuState m_MenuState;
 
 };
 
