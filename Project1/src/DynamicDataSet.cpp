@@ -45,6 +45,8 @@ inline void DynamicDataSet::Insert(int32_t p_NewDataPoint)
 	// element in the data set
 	for (; newIter < m_DataCount; newIter++)
 	{
+		// Check if at the end of the data set
+		// if so, insert new data point
 		if(!(oldIter < m_DataCount - 1)) 
 		{
 			newData[newIter++] = p_NewDataPoint;
