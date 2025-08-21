@@ -55,8 +55,9 @@ public:
 
 	/* Deletes all elements of a certain value
 	* @param The Value of the Elements to Delete
+	* @return Number of Instances Deleted
 	*/
-	void DeleteByValue(int32_t p_Value);
+	size_t DeleteByValue(int32_t p_Value);
 
 	/*
 	* Gets the Frequency of a Value

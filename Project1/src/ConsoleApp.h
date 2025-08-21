@@ -14,7 +14,8 @@ enum class EMenuState
 	Main,
 	Insert,
 	Delete,
-	Configure
+	Configure,
+	Calculator
 };
 
 class ConsoleApp
@@ -22,7 +23,7 @@ class ConsoleApp
 public:
 	ConsoleApp();
 	void ManageAppState();
-	void DisplayMenu() const;
+	void DisplayMenu();
 	EAppState GetState() const;
 	void Clean();
 

@@ -29,3 +29,13 @@ void CalculationManager::SetConfig(ECaluclatorConfig p_NewConfig)
 {
     m_Config = p_NewConfig;
 }
+
+void CalculationManager::SetCalcIndex(ECalculationIndex p_NewIndex)
+{
+    m_CalcIndex = p_NewIndex;
+}
+
+ECalculationIndex CalculationManager::GetCalcIndex() const
+{
+    return m_CalcIndex;
+}

@@ -130,13 +130,20 @@ void DynamicDataSet::DeleteAt(size_t p_Index)
 
 }
 
-void DynamicDataSet::DeleteByValue(int32_t p_Value)
+size_t DynamicDataSet::DeleteByValue(int32_t p_Value)
 {
+	size_t count = 0;
+
 	for (size_t i = 0; i < m_DataCount; i++)
 	{
 		if (m_DataPtr[i] == p_Value)
+		{
+			count++;
 			DeleteAt(i--);
+		}
 	}
+
+	return count;
 }
 
 size_t DynamicDataSet::NumberOfRecurrences(int32_t p_Value) const

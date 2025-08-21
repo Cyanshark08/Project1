@@ -28,23 +28,7 @@ int main(void)
 		// display the menu
 		switch (toupper(menuOption()))
 		{
-		case '0': exit(1); break;
-		case '1': // configuring dataset
-		{
-			// display the configure subMenu
-			configureMenu();
-			break;
-		}
-		case '2': // insert value into the dataset
-		{
-			insertMenu();
-			break;
-		}
-		case '3': // delete value from the dataset
-		{
-			deleteMenu();
-			break;
-		}
+
 		case 'A': // find minimum
 		{
 			break;
@@ -61,31 +45,7 @@ int main(void)
 char menuOption()
 {
 	// display the menu
-	cout << "\n\tDescriptive Statistics Calculator Main Menu";
-	cout << "\n\t" << string(110, 205);
-
-	cout << "\n\t 0. Exit";
-	cout << "\n\t 1. Configure Dataset to Sample or Polulation";
-	cout << "\n\t 2. Insert sort value(s) to the Dataset";
-	cout << "\n\t 3. Delete value(s) from the Dataset";
-	cout << "\n\t" << string(110, 196);
-
-	cout << "\n\t A. Find Minimum                   N. Find Outliers";
-	cout << "\n\t B. Find Maximum                   O. Find Sum of Squares";
-	cout << "\n\t C. Find Range                     P. Find Mean Absolute Deviation";
-	cout << "\n\t D. Find Size                      Q. Find Root Mean Square";
-	cout << "\n\t E. Find Sum                       R. Find Standard Error of Mean";
-	cout << "\n\t F. Find Mean                      S. Find Skewness";
-	cout << "\n\t G. Find Median                    T. Find Kurtosis";
-	cout << "\n\t H. Find Mode(s)                   U. Find Kurtosis Excess";
-	cout << "\n\t I. Find Standard Deviation        V. Find Coefficient of Variation";
-	cout << "\n\t J. Find Variance                  W. Find Relative Standard Deviation";
-	cout << "\n\t K. Find Midrange                  X. Display Frequency Table";
-	cout << "\n\t L. Find Quartiles                 Y. Display ALL statical results";
-	cout << "\n\t M. Find Interquartile Range       Z. Output ALL statical results to text file";
-	cout << "\n\t" << string(110, 205);
-
-	return inputChar("\n\tOption: ", "0123ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	
 }
 
 // PreCondition: N/A
@@ -203,71 +163,6 @@ void deleteMenu()
 {
 	do
 	{
-		system("cls");
-		// submenu
-		cout << "\n\tDelete Dataset Menu";
-		cout << "\n\t" << string(110, 205);
-		cout << "\n\t\tA. Delete a Value";
-		cout << "\n\t\tB. Delete a Range of Values";
-		cout << "\n\t\tC. Delete All Values";
-		cout << "\n\t" << string(110, 196);
-		cout << "\n\t\tR. Return";
-		cout << "\n\t" << string(110, 205);
-		switch (toupper(inputChar("\n\t\tOption: ", "ABCR")))
-		{
-		case 'A': // delete a value
-		{
-			// could check if the arrray is populated, but we don't have to
-
-			bool found = true;
-			int instances = 0;
-
-			// get the number to delete
-			int numToDelete = inputInteger("\n\tSpecify an integer value to find and be deleted from the Dataset: ");
-			char choice = inputChar("\n\tDelete *-all elements or 1-one element found with value " +
-				to_string(numToDelete) + "? ", "*1");
-
-			// loop through the array and if the value matches, deleteAt(i)
-			// change found to true, 
-			// cout << "\n\tCONFIRMATION: One element " << numToDelete << " has been found and deleted.
-			// if one, break after first removal,
-
-			if (!found)
-				cout << "\n\tERROR: No element " << numToDelete << " has been found and deleted.";
-			else
-			{
-				cout << "\n\tCONFIRMATION: All " << " instance(s) of element (" << numToDelete <<
-					") have been found and deleted."; // have to put in # of recurrences/ frequency of the value
-			}
-			break;
-		}
-		case 'B': // delete range of values
-		{
-			vector<int> valuesDeleted;
-			// get the range of values
-			int startValue = inputInteger("\n\tSpecify a starting integer value to be deleted from the Dataset: ");
-			int endValue = inputInteger("\n\tSpecify an ending integer value to be deleted from the Dataset: ");
-
-			// loop through the array
-			// if value At(i) between the range, 
-
-			break;
-		}
-		case 'C': // delete all values
-		{
-			// delete the dataset
-
-			cout << "\n\tDataset has been purged of all elements.";
-			break;
-		}
-		case 'R': return;
-		default:
-		{
-			cout << "\n\tERROR: Invalid option.";
-			break;
-		}
-		}
-		cout << "\n\n";
-		system("pause");
+		
 	} while (true);
 }

@@ -8,6 +8,36 @@ enum class ECaluclatorConfig
 	Sample
 };
 
+enum class ECalculationIndex
+{
+	Min = 'A',
+	Max = 'B',
+	Range = 'C',
+	Size = 'D',
+	Sum = 'E',
+	Mean = 'F',
+	Median = 'G',
+	Mode = 'H',
+	SDeviation = 'I',
+	Variance = 'J',
+	MidRange = 'K',
+	Quartiles = 'L',
+	IQRange = 'M',
+	Outliers = 'N',
+	SumOfSquares = 'O',
+	MADeviation = 'P',
+	RMSquare = 'Q',
+	SErrorOfMean = 'R',
+	Skewness = 'S',
+	Kurtosis = 'T',
+	KurtosisExcess = 'U',
+	COVariation = 'V',
+	RelSDeviation = 'W',
+	FreqTable = 'X',
+	DisplayResults = 'Y',
+	OutputResults = 'Z'
+};
+
 enum class EQuartile
 {
 	One,
@@ -20,6 +50,9 @@ class CalculationManager
 public:
 
 	void SetConfig(ECaluclatorConfig p_NewConfig);
+	void SetCalcIndex(ECalculationIndex p_NewIndex);
+
+	ECalculationIndex GetCalcIndex() const;
 
 //Calculation Methods
 	float FindMin(const DynamicDataSet& p_DataSet);
@@ -50,6 +83,7 @@ public:
 
 private:
 	ECaluclatorConfig m_Config;
+	ECalculationIndex m_CalcIndex;
 
 };
 
