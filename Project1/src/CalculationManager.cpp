@@ -42,24 +42,26 @@ ECalculationIndex CalculationManager::GetCalcIndex() const
 
 std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const
 {
-    std::stringstream ss;
+	std::stringstream ss;
+
+#define WIDTH 40
 
     switch (m_CalcIndex)
     {
 	case ECalculationIndex::Min:
-
+		ss << "\n\tMinimum" << std::setw(WIDTH) << " : " << FindMin(p_DataSet);
 		break;
 
 	case ECalculationIndex::Max:
-
+		ss << "\n\tMaximum" << std::setw(WIDTH) << " : " << FindMax(p_DataSet);
 		break;
 
 	case ECalculationIndex::Range:
-
+		ss << "\n\tRange" << std::setw(WIDTH) << " : " << FindRange(p_DataSet);
 		break;
 
 	case ECalculationIndex::Size:
-
+		ss << "\n\tSize" << std::setw(WIDTH) << " : " << FindSize(p_DataSet);
 		break;
 
 	case ECalculationIndex::Sum:
