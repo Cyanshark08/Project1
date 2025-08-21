@@ -35,7 +35,7 @@ enum class ECalculationIndex
 	RelSDeviation = 'W',
 	FreqTable = 'X',
 	DisplayResults = 'Y',
-	OutputResults = 'Z'
+	OutputResultsToFile = 'Z'
 };
 
 enum class EQuartile
@@ -55,31 +55,35 @@ public:
 	ECalculationIndex GetCalcIndex() const;
 
 //Calculation Methods
-	float FindMin(const DynamicDataSet& p_DataSet);
-	float FindMax(const DynamicDataSet& p_DataSet);
-	float FindRange(const DynamicDataSet& p_DataSet);
-	float FindSize(const DynamicDataSet& p_DataSet);
-	float FindSum(const DynamicDataSet& p_DataSet);
-	float FindMean(const DynamicDataSet& p_DataSet);
-	float FindMedian(const DynamicDataSet& p_DataSet);
-	DynamicDataSet FindMode(const DynamicDataSet& p_DataSet);
-	float FindStandardDeviation(const DynamicDataSet& p_DataSet);
-	float FindVariance(const DynamicDataSet& p_DataSet);
-	float FindMidRange(const DynamicDataSet& p_DataSet);
-	std::tuple<float, float, float> FindQuartiles(const DynamicDataSet& p_DataSet);
-	float FindQuartile(EQuartile p_QuartileNum, const DynamicDataSet& p_DataSet);
-	float FindInterquartileRange(const DynamicDataSet& p_DataSet);
-	DynamicDataSet FindOutliers(const DynamicDataSet& p_DataSet);
-	float FindSumOfSquares(const DynamicDataSet& p_DataSet);
-	float FindMeanAbsoluteDeviation(const DynamicDataSet& p_DataSet);
-	float FindRootMeanSquare(const DynamicDataSet& p_DataSet);
-	float FindStandardErrorOfMean(const DynamicDataSet& p_DataSet);
-	float FindSkewness(const DynamicDataSet& p_DataSet);
-	float FindKurtosis(const DynamicDataSet& p_DataSet);
-	float FindKurtosisExcess(const DynamicDataSet& p_DataSet);
-	float FindCoefficientOfVariation(const DynamicDataSet& p_DataSet);
-	float FindRelativeStandardDeviation(const DynamicDataSet& p_DataSet);
-	std::string GetFrequencyTable(const DynamicDataSet& p_DataSet);
+	float FindMin(const DynamicDataSet& p_DataSet) const;
+	float FindMax(const DynamicDataSet& p_DataSet) const;
+	float FindRange(const DynamicDataSet& p_DataSet) const;
+	float FindSize(const DynamicDataSet& p_DataSet) const;
+	float FindSum(const DynamicDataSet& p_DataSet) const;
+	float FindMean(const DynamicDataSet& p_DataSet) const;
+	float FindMedian(const DynamicDataSet& p_DataSet) const;
+	DynamicDataSet FindModes(const DynamicDataSet& p_DataSet) const;
+	float FindStandardDeviation(const DynamicDataSet& p_DataSet) const;
+	float FindVariance(const DynamicDataSet& p_DataSet) const;
+	float FindMidRange(const DynamicDataSet& p_DataSet) const;
+	std::tuple<float, float, float> FindQuartiles(const DynamicDataSet& p_DataSet) const;
+	float FindQuartile(EQuartile p_QuartileNum, const DynamicDataSet& p_DataSet) const;
+	float FindInterquartileRange(const DynamicDataSet& p_DataSet) const;
+	DynamicDataSet FindOutliers(const DynamicDataSet& p_DataSet) const;
+	float FindSumOfSquares(const DynamicDataSet& p_DataSet) const;
+	float FindMeanAbsoluteDeviation(const DynamicDataSet& p_DataSet) const;
+	float FindRootMeanSquare(const DynamicDataSet& p_DataSet) const;
+	float FindStandardErrorOfMean(const DynamicDataSet& p_DataSet) const;
+	float FindSkewness(const DynamicDataSet& p_DataSet) const;
+	float FindKurtosis(const DynamicDataSet& p_DataSet) const;
+	float FindKurtosisExcess(const DynamicDataSet& p_DataSet) const;
+	float FindCoefficientOfVariation(const DynamicDataSet& p_DataSet) const;
+	float FindRelativeStandardDeviation(const DynamicDataSet& p_DataSet) const;
+
+	std::string GetFrequencyTable(const DynamicDataSet& p_DataSet) const;
+	std::string GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const;
+	std::string PrintAllStatistics(const DynamicDataSet& p_DataSet) const;
+	void PrintStatisticsToFile(const std::string& p_FileName, const DynamicDataSet& p_DataSet) const;
 
 private:
 	ECaluclatorConfig m_Config;

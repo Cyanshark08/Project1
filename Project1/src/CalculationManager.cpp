@@ -3,7 +3,7 @@
 #include <map>
 #include <iomanip>
 
-std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSet)
+std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSet) const
 {
     std::stringstream ss;
     std::map<int32_t, size_t> frequencies;
@@ -38,4 +38,106 @@ void CalculationManager::SetCalcIndex(ECalculationIndex p_NewIndex)
 ECalculationIndex CalculationManager::GetCalcIndex() const
 {
     return m_CalcIndex;
+}
+
+std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const
+{
+    std::stringstream ss;
+
+    switch (m_CalcIndex)
+    {
+	case ECalculationIndex::Min:
+
+		break;
+
+	case ECalculationIndex::Max:
+
+		break;
+
+	case ECalculationIndex::Range:
+
+		break;
+
+	case ECalculationIndex::Size:
+
+		break;
+
+	case ECalculationIndex::Sum:
+
+		break;
+
+	case ECalculationIndex::Mean:
+
+		break;
+
+	case ECalculationIndex::Median:
+
+		break;
+
+	case ECalculationIndex::Mode:
+
+		break;
+
+	case ECalculationIndex::SDeviation:
+
+		break;
+
+	case ECalculationIndex::Variance:
+
+		break;
+
+	case ECalculationIndex::MidRange:
+
+		break;
+
+	case ECalculationIndex::Quartiles:
+
+		break;
+
+	case ECalculationIndex::IQRange:
+
+		break;
+
+	case ECalculationIndex::Outliers:
+
+		break;
+
+	case ECalculationIndex::SumOfSquares:
+
+		break;
+
+	case ECalculationIndex::MADeviation:
+
+		break;
+
+	case ECalculationIndex::RMSquare:
+
+		break;
+
+	case ECalculationIndex::SErrorOfMean:
+
+		break;
+
+	case ECalculationIndex::Skewness:
+
+		break;
+
+	case ECalculationIndex::Kurtosis:
+
+		break;
+
+	case ECalculationIndex::KurtosisExcess:
+
+		break;
+
+	case ECalculationIndex::COVariation:
+
+		break;
+
+	case ECalculationIndex::RelSDeviation:
+
+		break;
+    }
+
+    return ss.str();
 }

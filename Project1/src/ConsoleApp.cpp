@@ -270,12 +270,21 @@ void ConsoleApp::DisplayMenu()
 	case EMenuState::Calculator:
 		switch (m_CManager.GetCalcIndex())
 		{
-		case ECalculationIndex::Min:
-
+		case ECalculationIndex::FreqTable:
+			m_CManager.GetFrequencyTable(m_DataSet);
 			break;
-		case ECalculationIndex::Max:
 
+		case ECalculationIndex::DisplayResults:
+			m_CManager.PrintAllStatistics(m_DataSet);
 			break;
+
+		case ECalculationIndex::OutputResultsToFile:
+			
+			m_CManager.PrintStatisticsToFile(Input::inputString("\n\tInput the name of the File: ", false), m_DataSet);
+			break;
+
+		default:
+			printf("\n\t%s", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet));
 		}
 		break;
 	}
