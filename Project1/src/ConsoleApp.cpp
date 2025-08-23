@@ -268,11 +268,13 @@ void ConsoleApp::DisplayMenu()
 		case 'A': // switch to sample
 		{
 			printf("\n\tData Set configured for Sample.");
+			m_CManager.SetConfig(ECaluclatorConfig::Sample);
 			break;
 		}
 		case 'B': // switch to population
 		{
 			printf("\n\tData Set configured for Population.");
+			m_CManager.SetConfig(ECaluclatorConfig::Population);
 			break;
 		}
 		case 'R': // return
