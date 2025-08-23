@@ -2,6 +2,16 @@
 #include <sstream>
 #include <map>
 #include <iomanip>
+#include <fstream>
+
+#ifndef WIDTH_1
+	#define WIDTH_1 30
+#endif 
+
+
+#ifndef WIDTH_2
+	#define WIDTH_2 40
+#endif
 
 std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSet) const
 {
@@ -20,6 +30,8 @@ std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSe
 
     for (const auto& frequencyPair : frequencies)
         ss << "\n\t" << std::setw(7) << frequencyPair.first << std::setw(7) << frequencyPair.second << std::setw(10) << ((float)frequencyPair.second / (float)p_DataSet.GetCount()) * 100.f << "%";
+
+	ss << "\n\t";
 
     return ss.str();
 
@@ -185,119 +197,136 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 {
 	std::stringstream ss;
 
-#ifndef WIDTH
-	#define WIDTH 40
-#endif
 
-    switch (m_CalcIndex)
+
+    switch (p_CalculationIndex)
     {
 	case ECalculationIndex::Min:
-		ss << "\n\tMinimum" << std::setw(WIDTH) << " : " << FindMin(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Minimum" << std::setw(WIDTH_2) << " : " << FindMin(p_DataSet);
 		break;
 
 	case ECalculationIndex::Max:
-		ss << "\n\tMaximum" << std::setw(WIDTH) << " : " << FindMax(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Maximum" << std::setw(WIDTH_2) << " : " << FindMax(p_DataSet);
 		break;
 
 	case ECalculationIndex::Range:
-		ss << "\n\tRange" << std::setw(WIDTH) << " : " << FindRange(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Range" << std::setw(WIDTH_2) << " : " << FindRange(p_DataSet);
 		break;
 
 	case ECalculationIndex::Size:
-		ss << "\n\tSize" << std::setw(WIDTH) << " : " << FindSize(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Size" << std::setw(WIDTH_2) << " : " << FindSize(p_DataSet);
 		break;
 
 	case ECalculationIndex::Sum:
-		ss << "\n\tSum" << std::setw(WIDTH) << " : " << FindSum(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Sum" << std::setw(WIDTH_2) << " : " << FindSum(p_DataSet);
 		break;
 
 	case ECalculationIndex::Mean:
-		ss << "\n\tMean" << std::setw(WIDTH) << " : " << FindSize(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Mean" << std::setw(WIDTH_2) << " : " << FindSize(p_DataSet);
 		break;
 
 	case ECalculationIndex::Median:
-		ss << "\n\tMedian" << std::setw(WIDTH) << " : " << FindMedian(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Median" << std::setw(WIDTH_2) << " : " << FindMedian(p_DataSet);
 		break;
 
 	case ECalculationIndex::Mode:
-		ss << "\n\tModes" << std::setw(WIDTH) << " : " << FindModes(p_DataSet).to_string();
+		ss << "\n\t" << std::setw(WIDTH_1) << "Modes" << std::setw(WIDTH_2) << " : " << FindModes(p_DataSet).to_string();
 		break;
 
 	case ECalculationIndex::SDeviation:
-		ss << "\n\tStandard Deviation" << std::setw(WIDTH) << " : " << FindStandardDeviation(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Standard Deviation" << std::setw(WIDTH_2) << " : " << FindStandardDeviation(p_DataSet);
 		break;
 
 	case ECalculationIndex::Variance:
-		ss << "\n\tVariance" << std::setw(WIDTH) << " : " << FindVariance(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Variance" << std::setw(WIDTH_2) << " : " << FindVariance(p_DataSet);
 		break;
 
 	case ECalculationIndex::MidRange:
-		ss << "\n\tMid Range" << std::setw(WIDTH) << " : " << FindMidRange(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Mid Range" << std::setw(WIDTH_2) << " : " << FindMidRange(p_DataSet);
 		break;
 
 	case ECalculationIndex::Quartiles:
 	{
-		ss << "\n\tQuartiles" << std::setw(WIDTH) << " : ";
+		ss << "\n\t" << std::setw(WIDTH_1) << "Quartiles" << std::setw(WIDTH_2) << " : ";
 		auto quartiles = FindQuartiles(p_DataSet);
-		ss << "Quartile #" << 1 << " : " << std::get<0>(quartiles) << "\n\t" << std::setw(WIDTH) << " : ";
-		ss << "Quartile #" << 2 << " : " << std::get<1>(quartiles) << "\n\t" << std::setw(WIDTH) << " : ";
-		ss << "Quartile #" << 3 << " : " << std::get<2>(quartiles);
+		ss << "Quartile #" << 1 << " : " << std::get<0>(quartiles);
+		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 2 << " : " << std::get<1>(quartiles);
+		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 3 << " : " << std::get<2>(quartiles);
 	}
 		break;
 
 	case ECalculationIndex::IQRange:
-		ss << "\n\tInterquartile Range" << std::setw(WIDTH) << " : " << FindInterquartileRange(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Interquartile Range" << std::setw(WIDTH_2) << " : " << FindInterquartileRange(p_DataSet);
 		break;
 
 	case ECalculationIndex::Outliers:
-		ss << "\n\tOutliers" << std::setw(WIDTH) << " : " << FindOutliers(p_DataSet).to_string();
+		ss << "\n\t" << std::setw(WIDTH_1) << "Outliers" << std::setw(WIDTH_2) << " : " << FindOutliers(p_DataSet).to_string();
 		break;
 
 	case ECalculationIndex::SumOfSquares:
-		ss << "\n\tSum Of Squares" << std::setw(WIDTH) << " : " << FindSumOfSquares(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Sum Of Squares" << std::setw(WIDTH_2) << " : " << FindSumOfSquares(p_DataSet);
 		break;
 
 	case ECalculationIndex::MADeviation:
-		ss << "\n\tMean Absolute Deviation" << std::setw(WIDTH) << " : " << FindMeanAbsoluteDeviation(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Mean Absolute Deviation" << std::setw(WIDTH_2) << " : " << FindMeanAbsoluteDeviation(p_DataSet);
 		break;
 
 	case ECalculationIndex::RMSquare:
-		ss << "\n\tRoot Mean Square" << std::setw(WIDTH) << " : " << FindRootMeanSquare(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Root Mean Square" << std::setw(WIDTH_2) << " : " << FindRootMeanSquare(p_DataSet);
 		break;
 
 	case ECalculationIndex::SErrorOfMean:
-		ss << "\n\tStandard Error Of Mean" << std::setw(WIDTH) << " : " << FindStandardErrorOfMean(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Standard Error Of Mean" << std::setw(WIDTH_2) << " : " << FindStandardErrorOfMean(p_DataSet);
 		break;
 
 	case ECalculationIndex::Skewness:
-		ss << "\n\tSkewness" << std::setw(WIDTH) << " : " << FindSkewness(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Skewness" << std::setw(WIDTH_2) << " : " << FindSkewness(p_DataSet);
 		break;
 
 	case ECalculationIndex::Kurtosis:
-		ss << "\n\tKurtosis" << std::setw(WIDTH) << " : " << FindKurtosis(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Kurtosis" << std::setw(WIDTH_2) << " : " << FindKurtosis(p_DataSet);
 		break;
 
 	case ECalculationIndex::KurtosisExcess:
-		ss << "\n\tKurtosis Excess" << std::setw(WIDTH) << " : " << FindKurtosisExcess(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Kurtosis Excess" << std::setw(WIDTH_2) << " : " << FindKurtosisExcess(p_DataSet);
 		break;
 
 	case ECalculationIndex::COVariation:
-		ss << "\n\tCoefficient Of Variation" << std::setw(WIDTH) << " : " << FindCoefficientOfVariation(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Coefficient Of Variation" << std::setw(WIDTH_2) << " : " << FindCoefficientOfVariation(p_DataSet);
 		break;
 
 	case ECalculationIndex::RelSDeviation:
-		ss << "\n\tRelative Standard Deviation" << std::setw(WIDTH) << " : " << FindRelativeStandardDeviation(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Relative Standard Deviation" << std::setw(WIDTH_2) << " : " << FindRelativeStandardDeviation(p_DataSet);
 		break;
+	case ECalculationIndex::FreqTable:
+		ss << GetFrequencyTable(p_DataSet).c_str();
+		break;
+	default:
+		ss << "\n\t" << std::setw(WIDTH_1) << "Calculation Index Error: Index [" << (size_t)p_CalculationIndex << "] is out of range!";
     }
 
     return ss.str();
 }
 
-std::string CalculationManager::PrintAllStatistics(const DynamicDataSet& p_DataSet) const
+void CalculationManager::PrintAllStatistics(const DynamicDataSet& p_DataSet) const
 {
-	return std::string();
+	for (size_t i = (size_t)ECalculationIndex::Min; i <= (size_t)ECalculationIndex::FreqTable; i++)
+		printf("\n\t%s", GetCalculationResultAsString((ECalculationIndex)i, p_DataSet).c_str());
 }
 
 void CalculationManager::PrintStatisticsToFile(const std::string& p_FileName, const DynamicDataSet& p_DataSet) const
 {
+	std::ofstream fileStream(p_FileName.c_str());
+
+	if (fileStream.fail())
+	{
+		printf("\n\tERROR: file \"%s\" not found!", p_FileName.c_str());
+		return;
+	}
+
+	for (size_t i = (size_t)ECalculationIndex::Min; i <= (size_t)ECalculationIndex::FreqTable; i++)
+		fileStream << "\n\t" << GetCalculationResultAsString((ECalculationIndex)i, p_DataSet).c_str() << "\n\t";
+
+
+
 }

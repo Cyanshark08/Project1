@@ -105,7 +105,14 @@ void DynamicDataSet::InsertFromFile(const std::string& p_FileName)
 	{
 		std::istringstream tokenStream(strBuffer);
 		while (std::getline(tokenStream, token, ' '))
+		{
+			for (size_t i = 0; i < token.length(); i++)
+			{
+				if (!std::isdigit(token[i]))
+					throw E_InvalidFileFormat(token, p_FileName);
+			}
 			this->Insert(std::stoi(token));
+		}
 	}
 
 	fileStream.close();
@@ -139,6 +146,9 @@ void DynamicDataSet::DeleteAt(size_t p_Index)
 
 size_t DynamicDataSet::DeleteByValue(int32_t p_Value, bool p_DeleteAll)
 {
+	if (m_DataCount == 0)
+		throw E_NullSet();
+
 	size_t count = 0;
 
 	for (size_t i = 0; i < m_DataCount; i++)
@@ -192,9 +202,6 @@ std::string DynamicDataSet::GetAddressAsString() const
 
 std::string DynamicDataSet::to_string() const
 {
-	if (m_DataCount == 0)
-		throw E_NullSet();
-
 	std::stringstream ss;
 	for (size_t i = 0; i < m_DataCount; i++)
 		ss << (i % MAX_ARR_ELEMENTS_ACROSS ? "" : "\n\t") << std::setw(4) << this->At(i) << " ";
@@ -205,6 +212,8 @@ std::string DynamicDataSet::to_string() const
 void DynamicDataSet::Clean()
 {
 	delete[] m_DataPtr;
+	m_DataPtr = nullptr;
+	m_DataCount = NULL;
 }
 
 DynamicDataSet::~DynamicDataSet()
@@ -238,7 +247,7 @@ std::string ExceptionInterface::Message() const
 {
 	std::stringstream ss;
 	ss << "\n\tEXCEPTION ERROR: In \"" << __FILE__ << "\" : " << __LINE__;
-	ss << GetExceptionMessage();
+	ss << GetExceptionMessage() << "\n\t";
 	return ss.str();
 }
 
@@ -266,5 +275,22 @@ inline std::string DynamicDataSet::E_NullSet::GetExceptionMessage() const
 {
 	std::stringstream ss;
 	ss << "\n\t" << GetExceptionName();
+	return ss.str();
+}
+
+DynamicDataSet::E_InvalidFileFormat::E_InvalidFileFormat(const std::string& p_InvalidToken, const std::string& p_FileName)
+	: m_Token(p_InvalidToken),
+	m_FileName(p_FileName)
+{}
+
+inline std::string DynamicDataSet::E_InvalidFileFormat::GetExceptionName() const
+{
+	return "Invalid File Format";
+}
+
+inline std::string DynamicDataSet::E_InvalidFileFormat::GetExceptionMessage() const
+{
+	std::stringstream ss;
+	ss << "\n\t" << GetExceptionName() << " File \"" << m_FileName << "\" contained an invalid token \"" << m_Token << "\" (Ensure the file contains only digits delimited by spaces)";
 	return ss.str();
 }

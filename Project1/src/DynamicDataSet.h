@@ -129,6 +129,20 @@ public:
 		std::string GetExceptionMessage() const override;
 	};
 
+	class E_InvalidFileFormat : public ExceptionInterface
+	{
+	public:
+		E_InvalidFileFormat(const std::string& p_InvalidToken, const std::string& p_FileName);
+
+	private:
+		std::string GetExceptionName() const override;
+		std::string GetExceptionMessage() const override;
+
+	private:
+		std::string m_Token;
+		std::string m_FileName;
+	};
+
 //Overloaded Operators
 public:
 	int32_t operator[](size_t p_Index) const;

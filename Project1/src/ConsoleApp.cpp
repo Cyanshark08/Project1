@@ -18,8 +18,8 @@ void ConsoleApp::ManageAppState()
 		printf("\n\tusing numeric calculations.");
 		printf("\n\n\thttps://www.calculatorsoup.com/calculators/statistics/descriptivestatistics.php");
 		printf("\n\n");
-		system("pause");
-		system("cls");
+		std::system("pause");
+		std::system("cls");
 		m_AppState = EAppState::Running;
 		break;
 
@@ -42,21 +42,13 @@ void ConsoleApp::DisplayMenu()
 	{
 	case EMenuState::Main:
 		{
-			system("cls");
-			try
-			{
-				printf("\n\tData Set :%s\n\t", m_DataSet.to_string().c_str());
-			}
-			catch (const DynamicDataSet::E_NullSet& e)
-			{
-				printf("\n\tData Set : This Data Set is Currently NULL (Empty)");
-			}
-			
+			std::system("cls");			
+			printf("\n\tData Set :%s\n\t", ( m_DataSet.GetCount() >= 0 ? m_DataSet.to_string().c_str() : "\n\tData Set : This Data Set is Currently NULL (Empty)"));
 			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECaluclatorConfig::Population ? "Population" : "Sample"));
 			printf("\n\tDescriptive Statistics Calculator Main Menu");
 			printf("\n\t%s", std::string(110, 205).c_str());
 			printf("\n\t 0. Exit");
-			printf("\n\t 1. Configure Dataset to Sample or Polulation");
+			printf("\n\t 1. Configure Dataset to Sample or Population");
 			printf("\n\t 2. Insert sort value(s) to the Dataset");
 			printf("\n\t 3. Delete value(s) from the Dataset");
 			printf("\n\t%s", std::string(110, 196).c_str());
@@ -71,8 +63,8 @@ void ConsoleApp::DisplayMenu()
 			printf("\n\t I. Find Standard Deviation        V. Find Coefficient of Variation");
 			printf("\n\t J. Find Variance                  W. Find Relative Standard Deviation");
 			printf("\n\t K. Find Midrange                  X. Display Frequency Table");
-			printf("\n\t L. Find Quartiles                 Y. Display ALL statical results");
-			printf("\n\t M. Find Interquartile Range       Z. Output ALL statical results to text file");
+			printf("\n\t L. Find Quartiles                 Y. Display ALL statistical results");
+			printf("\n\t M. Find Interquartile Range       Z. Output ALL statistical results to text file");
 			printf("\n\t%s", std::string(110, 205).c_str());
 
 			char choice = Input::inputChar("\n\tOption: ", "0123ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -95,14 +87,14 @@ void ConsoleApp::DisplayMenu()
 				break;
 			default:
 				m_MenuState = EMenuState::Calculator;
-				m_CManager.SetCalcIndex((ECalculationIndex)toupper(choice));
+				m_CManager.SetCalcIndex((ECalculationIndex)std::toupper(choice));
 				break;
 			}
 		}
 		break;
 
 	case EMenuState::Insert:
-		system("cls");
+		std::system("cls");
 		// submenu
 		printf("\n\tInsert (sort) Dataset Menu");
 		printf("\n\t%s", std::string(110, 205).c_str());
@@ -113,7 +105,7 @@ void ConsoleApp::DisplayMenu()
 		printf("\n\t\tR. Return");
 		printf("\n\t%s", std::string(110, 205).c_str());
 
-		switch (toupper(Input::inputChar("\n\t\tOption: ", "ABCR")))
+		switch (std::toupper(Input::inputChar("\n\t\tOption: ", "ABCR")))
 		{
 		case 'A': // insert a value
 		{
@@ -140,7 +132,18 @@ void ConsoleApp::DisplayMenu()
 			//  get the file name
 			std::string fileName = Input::inputString("\n\tEnter the file to read from: ", true);
 
-			m_DataSet.InsertFromFile(fileName);
+			try
+			{
+				m_DataSet.InsertFromFile(fileName);
+			}
+			catch (const ExceptionInterface& e)
+			{
+
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
+			}
 
 			// read from the file and insert
 
@@ -158,11 +161,11 @@ void ConsoleApp::DisplayMenu()
 		}
 		}
 		printf("\n\n");
-		system("pause");
+		std::system("pause");
 		break;
 
 	case EMenuState::Delete:
-		system("cls");
+		std::system("cls");
 		// submenu
 		printf("\n\tDelete Dataset Menu");
 		printf("\n\t%s", std::string(110, 205).c_str());
@@ -172,7 +175,7 @@ void ConsoleApp::DisplayMenu()
 		printf("\n\t%s", std::string(110, 196).c_str());
 		printf("\n\t\tR. Return");
 		printf("\n\t%s", std::string(110, 205).c_str());
-		switch (toupper(Input::inputChar("\n\t\tOption: ", "ABCR")))
+		switch (std::toupper(Input::inputChar("\n\t\tOption: ", "ABCR")))
 		{
 		case 'A': // delete a value
 		{
@@ -189,14 +192,14 @@ void ConsoleApp::DisplayMenu()
 			{
 				instances = m_DataSet.DeleteByValue(numToDelete, (choice == '*' ? true : false));
 			}
-			catch(DynamicDataSet::E_NullSet)
+			catch (const ExceptionInterface& e)
 			{
-
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
 			}
-			catch (DynamicDataSet::E_OutOfBounds)
-			{
 
-			}
 			// loop through the array and if the value matches, deleteAt(i)
 			// change found to true, 
 			// cout << "\n\tCONFIRMATION: One element " << numToDelete << " has been found and deleted.
@@ -218,10 +221,20 @@ void ConsoleApp::DisplayMenu()
 			size_t startValue = Input::inputInteger("\n\tSpecify a starting integer value to be deleted from the Dataset: ");
 			size_t endValue = Input::inputInteger("\n\tSpecify an ending integer value to be deleted from the Dataset: ");
 
-			for (size_t i = startValue; i < endValue; i++)
+			try
 			{
-				deletedValues.Insert(m_DataSet[i]);
-				m_DataSet.DeleteAt(i);
+				for (size_t i = startValue; i < endValue; i++)
+				{
+					deletedValues.Insert(m_DataSet[i]);
+					m_DataSet.DeleteAt(i);
+				}
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
 			}
 
 			// loop through the array
@@ -231,8 +244,7 @@ void ConsoleApp::DisplayMenu()
 		}
 		case 'C': // delete all values
 		{
-			// delete the dataset
-
+			m_DataSet.Clean();
 			printf("\n\tDataset has been purged of all elements.");
 			break;
 		}
@@ -246,11 +258,11 @@ void ConsoleApp::DisplayMenu()
 		}
 		}
 		printf("\n\n");
-		system("pause");
+		std::system("pause");
 		break;
 
 	case EMenuState::Configure:
-		system("cls");
+		std::system("cls");
 		// submenu
 		printf("\n\tIn statistics, Population refers to the entire group of data");
 		printf("\n\tpoints that a study is interested in, while a Sample is a");
@@ -263,7 +275,7 @@ void ConsoleApp::DisplayMenu()
 		printf("\n\t\tR. Return");
 		printf("\n\t%s", std::string(110, 205).c_str());
 
-		switch (toupper(Input::inputChar("\n\t\tOption: ", "ABR")))
+		switch (std::toupper(Input::inputChar("\n\t\tOption: ", "ABR")))
 		{
 		case 'A': // switch to sample
 		{
@@ -290,7 +302,7 @@ void ConsoleApp::DisplayMenu()
 		}
 		}
 		printf("\n\n");
-		system("pause");
+		std::system("pause");
 		break;
 
 	case EMenuState::Calculator:
@@ -305,14 +317,13 @@ void ConsoleApp::DisplayMenu()
 			break;
 
 		case ECalculationIndex::OutputResultsToFile:
-			
 			m_CManager.PrintStatisticsToFile(Input::inputString("\n\tInput the name of the File: ", false), m_DataSet);
 			break;
 
 		default:
-			printf("\n\t%s\n\t", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet).c_str());
+			printf("\n\t%s\n\t\n\t", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet).c_str());
 		}
-		system("pause");
+		std::system("pause");
 		m_MenuState = EMenuState::Main;
 		break;
 	}

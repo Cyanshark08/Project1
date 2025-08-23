@@ -42,7 +42,7 @@ namespace Input {
 			{
 				bool found = false;
 				for (int i = 0; i < options.length(); i++)
-					if ((toupper(options.at(i))) == toupper(input))
+					if ((std::toupper(options.at(i))) == std::toupper(input))
 					{
 						found = true;
 						break;
@@ -57,7 +57,7 @@ namespace Input {
 					std::cout << "ERROR: Invalid input. Must be one of '" << options << "' character.\n";
 			}
 		} while (true);
-		return toupper(input);
+		return std::toupper(input);
 	}
 
 	//PreCondition: valid yes (char) or no (char)
@@ -75,7 +75,7 @@ namespace Input {
 				std::cin.ignore(999, '\n');
 			}
 			else if (tolower(input) != tolower(yes) && tolower(input) != tolower(no))
-				std::cout << "ERROR: Invalid input. Must be a '" << static_cast<char>(toupper(yes)) << "' or '" << static_cast<char>(toupper(no)) << "' character.\n";
+				std::cout << "ERROR: Invalid input. Must be a '" << static_cast<char>(std::toupper(yes)) << "' or '" << static_cast<char>(std::toupper(no)) << "' character.\n";
 			else
 			{
 				std::cin.clear();
@@ -83,7 +83,7 @@ namespace Input {
 				break;
 			}
 		} while (true);
-		return toupper(input);
+		return std::toupper(input);
 	}
 
 	//PreCondition: alphaOrDigit (boolean true or false)
@@ -133,7 +133,7 @@ namespace Input {
 		} while (true);
 		std::cin.clear();
 		std::cin.ignore(999, '\n');
-		return toupper(input);
+		return std::toupper(input);
 	}
 
 	//PreCondition: NA

@@ -45,4 +45,7 @@
   <ItemGroup>
     <Text Include="egText.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="results" />
+  </ItemGroup>
 </Project>

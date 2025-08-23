@@ -85,7 +85,7 @@ public:
 
 	std::string GetFrequencyTable(const DynamicDataSet& p_DataSet) const;
 	std::string GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const;
-	std::string PrintAllStatistics(const DynamicDataSet& p_DataSet) const;
+	void PrintAllStatistics(const DynamicDataSet& p_DataSet) const;
 	void PrintStatisticsToFile(const std::string& p_FileName, const DynamicDataSet& p_DataSet) const;
 
 private:
