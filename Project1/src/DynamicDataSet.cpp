@@ -8,6 +8,13 @@
 	#define MAX_ARR_ELEMENTS_ACROSS 15
 #endif
 
+//Copy Constructor
+DynamicDataSet::DynamicDataSet(const DynamicDataSet& p_Other)
+{
+	for (size_t i = 0; i < p_Other.GetCount(); i++)
+		this->Insert(p_Other[i]);
+}
+
 inline int32_t DynamicDataSet::At(size_t p_Index) const
 {
 
@@ -130,7 +137,7 @@ void DynamicDataSet::DeleteAt(size_t p_Index)
 
 }
 
-size_t DynamicDataSet::DeleteByValue(int32_t p_Value)
+size_t DynamicDataSet::DeleteByValue(int32_t p_Value, bool p_DeleteAll)
 {
 	size_t count = 0;
 
@@ -140,7 +147,11 @@ size_t DynamicDataSet::DeleteByValue(int32_t p_Value)
 		{
 			count++;
 			DeleteAt(i--);
+			if (!p_DeleteAll)
+				return count;
 		}
+		
+
 	}
 
 	return count;
@@ -181,6 +192,9 @@ std::string DynamicDataSet::GetAddressAsString() const
 
 std::string DynamicDataSet::to_string() const
 {
+	if (m_DataCount == 0)
+		throw E_NullSet();
+
 	std::stringstream ss;
 	for (size_t i = 0; i < m_DataCount; i++)
 		ss << (i % MAX_ARR_ELEMENTS_ACROSS ? "" : "\n\t") << std::setw(4) << this->At(i) << " ";

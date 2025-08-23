@@ -224,7 +224,7 @@ namespace Input {
 				std::cin.clear();
 				std::cin.ignore(999, '\n');
 			}
-			else if (!(input >= min(startRange, endRange) && input <= max(startRange, endRange)))
+			else if (!(input >= std::min(startRange, endRange) && input <= std::max(startRange, endRange)))
 				std::cout << "ERROR: Invalid input. Must be from " << startRange << ".." << endRange << ".\n";
 			else
 				break;
@@ -322,7 +322,7 @@ namespace Input {
 				std::cin.clear();
 				std::cin.ignore(999, '\n');
 			}
-			else if (!(input >= min(startRange, endRange) && input <= max(startRange, endRange)))
+			else if (!(input >= std::min(startRange, endRange) && input <= std::max(startRange, endRange)))
 				std::cout << "ERROR: Invalid input. Must be from " << startRange << ".." << endRange << ".\n";
 			else
 				break;

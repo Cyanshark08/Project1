@@ -21,6 +21,14 @@ public:
 	DynamicDataSet() = default;
 
 	/*
+	* 
+	* 
+	* 
+	* 
+	*/
+	DynamicDataSet(const DynamicDataSet& p_Other);
+
+	/*
 	* Gets an Element at an Index
 	* @param The Index of the Element to Retrieve 
 	* @return The Element at the Index
@@ -57,7 +65,7 @@ public:
 	* @param The Value of the Elements to Delete
 	* @return Number of Instances Deleted
 	*/
-	size_t DeleteByValue(int32_t p_Value);
+	size_t DeleteByValue(int32_t p_Value, bool p_DeleteAll);
 
 	/*
 	* Gets the Frequency of a Value

@@ -49,10 +49,13 @@ class CalculationManager
 {
 public:
 
+	CalculationManager();
+
 	void SetConfig(ECaluclatorConfig p_NewConfig);
 	void SetCalcIndex(ECalculationIndex p_NewIndex);
 
 	ECalculationIndex GetCalcIndex() const;
+	ECaluclatorConfig GetCalcConfig() const;
 
 //Calculation Methods
 	float FindMin(const DynamicDataSet& p_DataSet) const;

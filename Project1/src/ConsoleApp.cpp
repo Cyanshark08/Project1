@@ -2,11 +2,14 @@
 #include "input.h"
 
 ConsoleApp::ConsoleApp()
-	: m_AppState(EAppState::Intro)
+	: m_AppState(EAppState::Intro),
+	m_MenuState(EMenuState::Main)
 {}
 
 void ConsoleApp::ManageAppState()
 {
+	printf("\n\tCalculator State : %c", (char)m_CManager.GetCalcIndex());
+
 	switch (m_AppState)
 	{
 	case EAppState::Intro:
@@ -16,6 +19,8 @@ void ConsoleApp::ManageAppState()
 		printf("\n\n\thttps://www.calculatorsoup.com/calculators/statistics/descriptivestatistics.php");
 		printf("\n\n");
 		system("pause");
+		system("cls");
+		m_AppState = EAppState::Running;
 		break;
 
 	case EAppState::Running:
@@ -30,54 +35,69 @@ void ConsoleApp::ManageAppState()
 
 void ConsoleApp::DisplayMenu()
 {
+	if (m_AppState == EAppState::Closed)
+		return;
 
 	switch (m_MenuState)
 	{
 	case EMenuState::Main:
-		printf("\n\tDescriptive Statistics Calculator Main Menu");
-		printf("\n\t%s", std::string(110, 205).c_str());
-		printf("\n\t 0. Exit");
-		printf("\n\t 1. Configure Dataset to Sample or Polulation");
-		printf("\n\t 2. Insert sort value(s) to the Dataset");
-		printf("\n\t 3. Delete value(s) from the Dataset");
-		printf("\n\t%s", std::string(110, 196).c_str());
-		printf("\n\t A. Find Minimum                   N. Find Outliers");
-		printf("\n\t B. Find Maximum                   O. Find Sum of Squares");
-		printf("\n\t C. Find Range                     P. Find Mean Absolute Deviation");
-		printf("\n\t D. Find Size                      Q. Find Root Mean Square");
-		printf("\n\t E. Find Sum                       R. Find Standard Error of Mean");
-		printf("\n\t F. Find Mean                      S. Find Skewness");
-		printf("\n\t G. Find Median                    T. Find Kurtosis");
-		printf("\n\t H. Find Mode(s)                   U. Find Kurtosis Excess");
-		printf("\n\t I. Find Standard Deviation        V. Find Coefficient of Variation");
-		printf("\n\t J. Find Variance                  W. Find Relative Standard Deviation");
-		printf("\n\t K. Find Midrange                  X. Display Frequency Table");
-		printf("\n\t L. Find Quartiles                 Y. Display ALL statical results");
-		printf("\n\t M. Find Interquartile Range       Z. Output ALL statical results to text file");
-		printf("\n\t%s", std::string(110, 205).c_str());
-
-		char choice = Input::inputChar("\n\tOption: ", "0123ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-		switch (choice)
 		{
+			system("cls");
+			try
+			{
+				printf("\n\tData Set :%s\n\t", m_DataSet.to_string().c_str());
+			}
+			catch (const DynamicDataSet::E_NullSet& e)
+			{
+				printf("\n\tData Set : This Data Set is Currently NULL (Empty)");
+			}
+			
+			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECaluclatorConfig::Population ? "Population" : "Sample"));
+			printf("\n\tDescriptive Statistics Calculator Main Menu");
+			printf("\n\t%s", std::string(110, 205).c_str());
+			printf("\n\t 0. Exit");
+			printf("\n\t 1. Configure Dataset to Sample or Polulation");
+			printf("\n\t 2. Insert sort value(s) to the Dataset");
+			printf("\n\t 3. Delete value(s) from the Dataset");
+			printf("\n\t%s", std::string(110, 196).c_str());
+			printf("\n\t A. Find Minimum                   N. Find Outliers");
+			printf("\n\t B. Find Maximum                   O. Find Sum of Squares");
+			printf("\n\t C. Find Range                     P. Find Mean Absolute Deviation");
+			printf("\n\t D. Find Size                      Q. Find Root Mean Square");
+			printf("\n\t E. Find Sum                       R. Find Standard Error of Mean");
+			printf("\n\t F. Find Mean                      S. Find Skewness");
+			printf("\n\t G. Find Median                    T. Find Kurtosis");
+			printf("\n\t H. Find Mode(s)                   U. Find Kurtosis Excess");
+			printf("\n\t I. Find Standard Deviation        V. Find Coefficient of Variation");
+			printf("\n\t J. Find Variance                  W. Find Relative Standard Deviation");
+			printf("\n\t K. Find Midrange                  X. Display Frequency Table");
+			printf("\n\t L. Find Quartiles                 Y. Display ALL statical results");
+			printf("\n\t M. Find Interquartile Range       Z. Output ALL statical results to text file");
+			printf("\n\t%s", std::string(110, 205).c_str());
 
-		case '0': 
-			m_AppState = EAppState::Closed;
-			break;
-		case '1': // configuring dataset
-			m_MenuState = EMenuState::Configure;
-			break;
-		
-		case '2': // insert value into the dataset
-			m_MenuState = EMenuState::Insert;
-			break;
-		
-		case '3': // delete value from the dataset
-			m_MenuState = EMenuState::Delete;
-			break;
-		default:
-			m_MenuState = EMenuState::Calculator;
-			m_CManager.SetCalcIndex((ECalculationIndex)choice);
-			break;
+			char choice = Input::inputChar("\n\tOption: ", "0123ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+			switch (choice)
+			{
+
+			case '0':
+				m_AppState = EAppState::Closed;
+				return;
+			case '1': // configuring dataset
+				m_MenuState = EMenuState::Configure;
+				break;
+
+			case '2': // insert value into the dataset
+				m_MenuState = EMenuState::Insert;
+				break;
+
+			case '3': // delete value from the dataset
+				m_MenuState = EMenuState::Delete;
+				break;
+			default:
+				m_MenuState = EMenuState::Calculator;
+				m_CManager.SetCalcIndex((ECalculationIndex)toupper(choice));
+				break;
+			}
 		}
 		break;
 
@@ -100,7 +120,7 @@ void ConsoleApp::DisplayMenu()
 			int32_t value = Input::inputInteger("\n\tSpecify an integer value to be inserted into the dataset: ");
 			m_DataSet.Insert(value);
 
-			printf("\n\t %d has been inserted.", value);
+			printf("\n\t%d has been inserted.", value);
 			break;
 		}
 		case 'B': // insert random number of specified values
@@ -128,7 +148,9 @@ void ConsoleApp::DisplayMenu()
 			//	" from " << fileName << ".";
 			break;
 		}
-		case 'R': return;
+		case 'R': 
+			m_MenuState = EMenuState::Main;
+			return;
 		default: // invalid option
 		{
 			printf("\n\tERROR: Invalid Option.");
@@ -156,17 +178,16 @@ void ConsoleApp::DisplayMenu()
 		{
 			// could check if the arrray is populated, but we don't have to
 
-			int instances = 0;
+			size_t  instances = 0;
 
 			// get the number to delete
 			int32_t numToDelete = Input::inputInteger("\n\tSpecify an integer value to find and be deleted from the Dataset: ");
 			char choice = Input::inputChar("\n\tDelete *-all elements or 1-one element found with value " +
 				std::to_string(numToDelete) + "? ", "*1");
 
-			size_t instances = 0;
 			try
 			{
-				instances = m_DataSet.DeleteByValue(numToDelete);
+				instances = m_DataSet.DeleteByValue(numToDelete, (choice == '*' ? true : false));
 			}
 			catch(DynamicDataSet::E_NullSet)
 			{
@@ -215,7 +236,9 @@ void ConsoleApp::DisplayMenu()
 			printf("\n\tDataset has been purged of all elements.");
 			break;
 		}
-		case 'R': return;
+		case 'R': 
+			m_MenuState = EMenuState::Main;
+			return;
 		default:
 		{
 			printf("\n\tERROR: Invalid option.");
@@ -255,6 +278,7 @@ void ConsoleApp::DisplayMenu()
 		case 'R': // return
 		{
 			printf("\n\tNo Change to Dataset");
+			m_MenuState = EMenuState::Main;
 			return;
 		}
 		default: // invalid option
@@ -284,8 +308,10 @@ void ConsoleApp::DisplayMenu()
 			break;
 
 		default:
-			printf("\n\t%s", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet));
+			printf("\n\t%s\n\t", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet).c_str());
 		}
+		system("pause");
+		m_MenuState = EMenuState::Main;
 		break;
 	}
 }
