@@ -26,7 +26,7 @@ namespace Input {
 
 	//PreCondition: valid std::string of options
 	//PostCondition: returns an uppercase  of the option (char)
-	char inputChar(const std::string& prompt, std::string options)
+	char inputChar(const std::string& prompt, const std::string& options)
 	{
 		char input;
 		do

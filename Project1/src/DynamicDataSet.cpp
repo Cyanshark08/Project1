@@ -246,8 +246,7 @@ DynamicDataSet::E_OutOfBounds::E_OutOfBounds(size_t p_Index)
 std::string ExceptionInterface::Message() const
 {
 	std::stringstream ss;
-	ss << "\n\tEXCEPTION ERROR: In \"" << __FILE__ << "\" : " << __LINE__;
-	ss << GetExceptionMessage() << "\n\t";
+	ss << "\n\tEXCEPTION ERROR: " << GetExceptionMessage() << "\n\n\t";
 	return ss.str();
 }
 
@@ -259,7 +258,7 @@ inline std::string DynamicDataSet::E_OutOfBounds::GetExceptionName() const
 inline std::string DynamicDataSet::E_OutOfBounds::GetExceptionMessage() const
 {
 	std::stringstream ss;
-	ss << "\n\t" << GetExceptionName() << " (Index [" << m_Index << "] Out of Bounds)";
+	ss << GetExceptionName() << " (Index [" << m_Index << "] Out of Bounds)";
 	return ss.str();
 }
 
@@ -274,7 +273,7 @@ inline std::string DynamicDataSet::E_NullSet::GetExceptionName() const
 inline std::string DynamicDataSet::E_NullSet::GetExceptionMessage() const
 {
 	std::stringstream ss;
-	ss << "\n\t" << GetExceptionName();
+	ss << GetExceptionName();
 	return ss.str();
 }
 
@@ -291,6 +290,6 @@ inline std::string DynamicDataSet::E_InvalidFileFormat::GetExceptionName() const
 inline std::string DynamicDataSet::E_InvalidFileFormat::GetExceptionMessage() const
 {
 	std::stringstream ss;
-	ss << "\n\t" << GetExceptionName() << " File \"" << m_FileName << "\" contained an invalid token \"" << m_Token << "\" (Ensure the file contains only digits delimited by spaces)";
+	ss << GetExceptionName() << " (File \"" << m_FileName << "\" contained an invalid token \"" << m_Token << "\") - Ensure the file contains only digits delimited by spaces";
 	return ss.str();
 }

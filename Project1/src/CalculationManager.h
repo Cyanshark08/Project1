@@ -88,6 +88,17 @@ public:
 	void PrintAllStatistics(const DynamicDataSet& p_DataSet) const;
 	void PrintStatisticsToFile(const std::string& p_FileName, const DynamicDataSet& p_DataSet) const;
 
+public:
+	class E_InsufficientData : public ExceptionInterface
+	{
+	public:
+		E_InsufficientData();
+
+	private:
+		std::string GetExceptionName() const override;
+		std::string GetExceptionMessage() const override;
+	};
+
 private:
 	ECaluclatorConfig m_Config;
 	ECalculationIndex m_CalcIndex;

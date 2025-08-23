@@ -22,7 +22,7 @@ class ConsoleApp
 {
 public:
 	ConsoleApp();
-	void ManageAppState();
+	void ManageApp();
 	void DisplayMenu();
 	EAppState GetState() const;
 	void Clean();

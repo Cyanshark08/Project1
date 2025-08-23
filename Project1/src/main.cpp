@@ -8,6 +8,6 @@ int main()
 	//Loop app until closed
 	do
 	{
-		app.ManageAppState();
+		app.ManageApp();
 	} while (app.GetState() != EAppState::Closed);
 }

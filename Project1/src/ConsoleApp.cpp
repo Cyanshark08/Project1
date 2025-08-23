@@ -6,7 +6,7 @@ ConsoleApp::ConsoleApp()
 	m_MenuState(EMenuState::Main)
 {}
 
-void ConsoleApp::ManageAppState()
+void ConsoleApp::ManageApp()
 {
 	printf("\n\tCalculator State : %c", (char)m_CManager.GetCalcIndex());
 
@@ -43,7 +43,7 @@ void ConsoleApp::DisplayMenu()
 	case EMenuState::Main:
 		{
 			std::system("cls");			
-			printf("\n\tData Set :%s\n\t", ( m_DataSet.GetCount() >= 0 ? m_DataSet.to_string().c_str() : "\n\tData Set : This Data Set is Currently NULL (Empty)"));
+			printf("\n\tData Set : %s\n\t", ( m_DataSet.GetCount() > 1 ? m_DataSet.to_string().c_str() : "Data Set requires at least 2 values."));
 			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECaluclatorConfig::Population ? "Population" : "Sample"));
 			printf("\n\tDescriptive Statistics Calculator Main Menu");
 			printf("\n\t%s", std::string(110, 205).c_str());
@@ -309,19 +309,59 @@ void ConsoleApp::DisplayMenu()
 		switch (m_CManager.GetCalcIndex())
 		{
 		case ECalculationIndex::FreqTable:
-			m_CManager.GetFrequencyTable(m_DataSet);
+			try
+			{
+				printf("\n\t%s\n\t", m_CManager.GetFrequencyTable(m_DataSet).c_str());
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
+			}
 			break;
 
 		case ECalculationIndex::DisplayResults:
-			m_CManager.PrintAllStatistics(m_DataSet);
+			try
+			{
+				m_CManager.PrintAllStatistics(m_DataSet);
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
+			}
 			break;
 
 		case ECalculationIndex::OutputResultsToFile:
-			m_CManager.PrintStatisticsToFile(Input::inputString("\n\tInput the name of the File: ", false), m_DataSet);
+			try
+			{
+				m_CManager.PrintStatisticsToFile(Input::inputString("\n\tInput the name of the File: ", false), m_DataSet);
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
+			}
 			break;
 
 		default:
-			printf("\n\t%s\n\t\n\t", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet).c_str());
+			try
+			{
+				printf("\n\t%s\n\t\n\t", m_CManager.GetCalculationResultAsString(m_CManager.GetCalcIndex(), m_DataSet).c_str());
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
+				return;
+			}
 		}
 		std::system("pause");
 		m_MenuState = EMenuState::Main;

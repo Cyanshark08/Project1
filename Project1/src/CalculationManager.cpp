@@ -15,6 +15,9 @@
 
 std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSet) const
 {
+	if (p_DataSet.GetCount() <= 1)
+		throw CalculationManager::E_InsufficientData();
+
     std::stringstream ss;
     std::map<int32_t, size_t> frequencies;
 
@@ -195,9 +198,11 @@ float CalculationManager::FindRelativeStandardDeviation(const DynamicDataSet& p_
 
 std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const
 {
+
+	if (p_DataSet.GetCount() <= 1)
+		throw CalculationManager::E_InsufficientData();
+
 	std::stringstream ss;
-
-
 
     switch (p_CalculationIndex)
     {
@@ -299,7 +304,7 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 		ss << "\n\t" << std::setw(WIDTH_1) << "Relative Standard Deviation" << std::setw(WIDTH_2) << " : " << FindRelativeStandardDeviation(p_DataSet);
 		break;
 	case ECalculationIndex::FreqTable:
-		ss << GetFrequencyTable(p_DataSet).c_str();
+		ss << "\n\t" << GetFrequencyTable(p_DataSet).c_str() << "\n\t";
 		break;
 	default:
 		ss << "\n\t" << std::setw(WIDTH_1) << "Calculation Index Error: Index [" << (size_t)p_CalculationIndex << "] is out of range!";
@@ -329,4 +334,19 @@ void CalculationManager::PrintStatisticsToFile(const std::string& p_FileName, co
 
 
 
+}
+
+CalculationManager::E_InsufficientData::E_InsufficientData()
+{}
+
+inline std::string CalculationManager::E_InsufficientData::GetExceptionName() const
+{
+	return "Insufficient Data";
+}
+
+std::string CalculationManager::E_InsufficientData::GetExceptionMessage() const
+{
+	std::stringstream ss;
+	ss << GetExceptionName() << " (Data Set must contain at least 2 or more Elements)";
+	return ss.str();
 }
