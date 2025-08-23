@@ -29,46 +29,63 @@ public:
 	DynamicDataSet(const DynamicDataSet& p_Other);
 
 	/*
-	* Gets an Element at an Index
+	* PreCondition: A positive Index less than the Count
+	* 
+	* PostCondition: Returns the Element at that Index
 	* @param The Index of the Element to Retrieve 
 	* @return The Element at the Index
 	*/
 	int32_t At(size_t p_Index) const;
 
-	/* Inserts a Data Point into the set
+	/* 
+	* PreCondition: An integer value
+	* 
+	* PostCondition: Inserts the value (sorted) into the data set
 	* @param The Data Point to Add
 	*/
 	void Insert(int32_t p_NewDataPoint);
 	
 	/*
-	* Inserts random values into the set
+	* PreCondition: A positive integer value [n]
+	* 
+	* PostCondition: Inserts [n] random values into the set
 	* @param Number of Random Values to create
 	*/
 	void InsertRandom(size_t p_NumOfValues);
 
 	/*
-	* Inserts values from a file
+	* PreCondition: A valid filename [s] as an std::string (ensure valid file format)
+	* 
+	* PostCondition: Inserts tokens from [s] as long as they remain valid integers
 	* @param Number of Random Values to create
-	* @param
+	* 
 	* NOTE: This function utilizes .txt files
-	* hat separate integer values by a
+	* that separate + or - integer values with a
 	* ' ' (space) delimiter
 	*/
 	void InsertFromFile(const std::string& p_FileName);
 
-	/* Deletes an Element at an Index
+	/* 
+	* PreCondition: A + integer value [n] smaller than the Count
+	* 
+	* PostCondition: Deletes the element at index [n]
 	* @param The Index of the Element to Delete
 	*/
 	void DeleteAt(size_t p_Index);
 
-	/* Deletes all elements of a certain value
-	* @param The Value of the Elements to Delete
+	/*
+	* PreCondition: An integer value [n] and a flag [f] that indicate whether to delete all values of [n] or the first instance of [n]
+	* 
+	* PostCondition: Returns a positive integer that indicates the amount of instances of [n] deleted
+	* @param The Value of the Elements to Delete and a flag indicating whether to delete all values or the first instance
 	* @return Number of Instances Deleted
 	*/
 	size_t DeleteByValue(int32_t p_Value, bool p_DeleteAll);
 
 	/*
-	* Gets the Frequency of a Value
+	* PreCondition: An integer value [n]
+	* 
+	* PostCondition: Returns a positive integer that indicates the number of instances of [n]
 	* @param The Value to Search for
 	* @return The Frequency of a Value
 	*/
