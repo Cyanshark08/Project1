@@ -3,6 +3,7 @@
 #include <map>
 #include <iomanip>
 #include <fstream>
+#include <cmath>
 
 #ifndef WIDTH_1
 	#define WIDTH_1 30
@@ -123,12 +124,29 @@ float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet)
 
 float CalculationManager::FindVariance(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	// variance = std::pow(FindStandardDeviation(p_DataSet), 2.0);
+	float variance = 0;
+	float sum = 0;
+
+	// get the sum of the squared differences
+	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+		sum += std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
+
+	// determine the variance
+	if (m_Config == ECaluclatorConfig::Population)
+		variance = sum / p_DataSet.GetCount();
+	else if (m_Config == ECaluclatorConfig::Sample)
+		variance = sum / (p_DataSet.GetCount() - 1);
+
+	return variance;
 }
 
 float CalculationManager::FindMidRange(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float midRange = 0;
+	midRange = (FindMin(p_DataSet) + FindMax(p_DataSet)) / 2.0;
+
+	return midRange;
 }
 
 std::tuple<float, float, float> CalculationManager::FindQuartiles(const DynamicDataSet& p_DataSet) const
@@ -143,6 +161,7 @@ float CalculationManager::FindQuartile(EQuartile p_QuartileNum, const DynamicDat
 
 float CalculationManager::FindInterquartileRange(const DynamicDataSet& p_DataSet) const
 {
+
 	return 0.0f;
 }
 
@@ -153,17 +172,48 @@ DynamicDataSet CalculationManager::FindOutliers(const DynamicDataSet& p_DataSet)
 
 float CalculationManager::FindSumOfSquares(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float sumSquares = 0;
+
+	// find the sum of the squared difference between the value and the mean
+	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+	{
+		int temp = std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
+		sumSquares += temp;
+	}
+
+	return sumSquares;
 }
 
 float CalculationManager::FindMeanAbsoluteDeviation(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float meanAbsDev = 0;
+	float sum = 0;
+
+	// find the sum of the absolute difference between the value and the mean
+	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+	{
+		int temp = std::abs(p_DataSet.At(i) - FindMean(p_DataSet));
+		sum += temp;
+	}
+	meanAbsDev = sum / p_DataSet.GetCount();
+
+	return meanAbsDev;
 }
 
 float CalculationManager::FindRootMeanSquare(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float rootMeanSq = 0;
+	float sum = 0;
+
+	// find the sum of the squared data
+	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+	{
+		int temp = std::pow(p_DataSet.At(i), 2.0);
+		sum += temp;
+	}
+	rootMeanSq = std::sqrt(sum / p_DataSet.GetCount());
+
+	return rootMeanSq;
 }
 
 float CalculationManager::FindStandardErrorOfMean(const DynamicDataSet& p_DataSet) const
