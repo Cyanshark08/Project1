@@ -58,6 +58,16 @@ public:
 	ECaluclatorConfig GetCalcConfig() const;
 
 //Calculation Methods
+
+	/*
+	* PostCondition: 
+	* 
+	* PreCondition: 
+	* 
+	* @param
+	* @return
+	* 
+	*/
 	float FindMin(const DynamicDataSet& p_DataSet) const;
 	float FindMax(const DynamicDataSet& p_DataSet) const;
 	float FindRange(const DynamicDataSet& p_DataSet) const;
