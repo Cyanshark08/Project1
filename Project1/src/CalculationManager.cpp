@@ -152,7 +152,12 @@ float CalculationManager::FindMidRange(const DynamicDataSet& p_DataSet) const
 
 std::tuple<float, float, float> CalculationManager::FindQuartiles(const DynamicDataSet& p_DataSet) const
 {
-	return std::tuple<float, float, float>();
+	return 
+	{ 
+		FindQuartile(EQuartile::One, p_DataSet), 
+		FindQuartile(EQuartile::Two, p_DataSet), 
+		FindQuartile(EQuartile::Three, p_DataSet) 
+	};
 }
 
 float CalculationManager::FindQuartile(EQuartile p_QuartileNum, const DynamicDataSet& p_DataSet) const
@@ -308,9 +313,9 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 	{
 		ss << "\n\t" << std::setw(WIDTH_1) << "Quartiles" << std::setw(WIDTH_2) << " : ";
 		auto quartiles = FindQuartiles(p_DataSet);
-		ss << "Quartile #" << 1 << " : " << std::get<0>(quartiles);
-		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 2 << " : " << std::get<1>(quartiles);
-		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 3 << " : " << std::get<2>(quartiles);
+		ss << "Quartile #" << 1 << " : " << std::get<(size_t)EQuartile::One>(quartiles);
+		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 2 << " : " << std::get<(size_t)EQuartile::Two>(quartiles);
+		ss << "\n\t" << std::setw(WIDTH_1) << " " << std::setw(WIDTH_2)  << " " << "Quartile #" << 3 << " : " << std::get<(size_t)EQuartile::Three>(quartiles);
 	}
 		break;
 
