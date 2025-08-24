@@ -382,7 +382,7 @@ void CalculationManager::PrintStatisticsToFile(const std::string& p_FileName, co
 	for (size_t i = (size_t)ECalculationIndex::Min; i <= (size_t)ECalculationIndex::FreqTable; i++)
 		fileStream << "\n\t" << GetCalculationResultAsString((ECalculationIndex)i, p_DataSet).c_str() << "\n\t";
 
-
+	fileStream.close();
 
 }
 
