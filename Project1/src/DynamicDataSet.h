@@ -56,14 +56,15 @@ public:
 	/*
 	* PreCondition: A valid filename [s] as an std::string (ensure valid file format)
 	* 
-	* PostCondition: Inserts tokens from [s] as long as they remain valid integers
-	* @param Number of Random Values to create
+	* PostCondition: Inserts tokens from [s] as long as they remain valid integers; returns num of integers read
+	* @param Name of File to read from
+	* @return Number of elements read from file
 	* 
 	* NOTE: This function utilizes .txt files
 	* that separate + or - integer values with a
 	* ' ' (space) delimiter
 	*/
-	void InsertFromFile(const std::string& p_FileName);
+	size_t InsertFromFile(const std::string& p_FileName);
 
 	/* 
 	* PreCondition: A + integer value [n] smaller than the Count

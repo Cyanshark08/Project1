@@ -88,14 +88,15 @@ void DynamicDataSet::InsertRandom(size_t p_NumOfValues)
 
 }
 
-void DynamicDataSet::InsertFromFile(const std::string& p_FileName)
+size_t DynamicDataSet::InsertFromFile(const std::string& p_FileName)
 {
 	std::ifstream fileStream(p_FileName.c_str());
+	size_t count = 0;
 
 	if(fileStream.fail())
 	{
 		printf("\n\tERROR: File \"%s\" does not exist", p_FileName.c_str());
-		return;
+		return NULL;
 	}
 
 	std::string strBuffer;
@@ -112,10 +113,13 @@ void DynamicDataSet::InsertFromFile(const std::string& p_FileName)
 					throw E_InvalidFileFormat(token, p_FileName);
 			}
 			this->Insert(std::stoi(token));
+			count++;
 		}
 	}
 
 	fileStream.close();
+
+	return count;
 }
 
 void DynamicDataSet::DeleteAt(size_t p_Index)

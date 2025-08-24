@@ -42,8 +42,9 @@ void ConsoleApp::DisplayMenu()
 	{
 	case EMenuState::Main:
 		{
-			std::system("cls");			
-			printf("\n\tData Set : %s\n\t", ( m_DataSet.GetCount() > 1 ? m_DataSet.to_string().c_str() : "Data Set requires at least 2 values."));
+			std::system("cls");	
+			printf("\n\tAddress  : %s\n\t", (m_DataSet.GetCount() > 0 ? m_DataSet.GetAddressAsString().c_str() : "NULL (no data set created)"));
+			printf("\n\tData Set : %s\n\t", (m_DataSet.GetCount() > 1 ? m_DataSet.to_string().c_str() : "Data Set requires at least 2 values."));
 			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECaluclatorConfig::Population ? "Population" : "Sample"));
 			printf("\n\tDescriptive Statistics Calculator Main Menu");
 			printf("\n\t%s", std::string(110, 205).c_str());
@@ -128,8 +129,7 @@ void ConsoleApp::DisplayMenu()
 		}
 		case 'C': // read from a file
 		{
-			// int sizeBefore = 
-			//  get the file name
+			size_t initialCount = m_DataSet.GetCount();
 			std::string fileName = Input::inputString("\n\tEnter the file to read from: ", true);
 
 			try
@@ -145,10 +145,7 @@ void ConsoleApp::DisplayMenu()
 				return;
 			}
 
-			// read from the file and insert
-
-			// cout << "\n\t" << size after - sizeBefore << " element(s) have been read and inserted into the Dataset " <<
-			//	" from " << fileName << ".";
+			printf("\n\t%d element(s) have been read and inserted into the Dataset from \"%s\".", m_DataSet.GetCount() - initialCount, fileName.c_str());
 			break;
 		}
 		case 'R': 
