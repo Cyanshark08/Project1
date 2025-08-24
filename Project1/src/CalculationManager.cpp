@@ -109,7 +109,22 @@ float CalculationManager::FindMean(const DynamicDataSet& p_DataSet) const
 
 float CalculationManager::FindMedian(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float median = 0;
+	size_t position = 0;
+	if (p_DataSet.GetCount() % 2 != 0) // odd number of elements
+	{
+		// find the middle of the array
+		position = p_DataSet.GetCount() / 2;
+		median = p_DataSet.At(position);
+	}
+	else // even number of elements
+	{
+		// determine the average of the two middle elements
+		position = (p_DataSet.GetCount()) / 2;
+		median = (p_DataSet.At(position - 1) + p_DataSet.At(position)) / 2.0;
+	}
+
+	return median;
 }
 
 DynamicDataSet CalculationManager::FindModes(const DynamicDataSet& p_DataSet) const
@@ -119,25 +134,29 @@ DynamicDataSet CalculationManager::FindModes(const DynamicDataSet& p_DataSet) co
 
 float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float standardDeviation = 0;
+	float mean = FindMean(p_DataSet);
+	size_t count = p_DataSet.GetCount();
+	float sum = 0;
+
+	// get the sum of the squared differences
+	for (size_t i = 0; i < count; i++)
+		sum += std::pow(p_DataSet.At(i) - mean, 2.0);
+
+	// determine the standardDeviation
+	if (m_Config == ECaluclatorConfig::Population)
+		standardDeviation = std::sqrt(sum / count);
+
+	else if (m_Config == ECaluclatorConfig::Sample)
+		standardDeviation = std::sqrt(sum / (count - 1));
+
+	return standardDeviation;
 }
 
 float CalculationManager::FindVariance(const DynamicDataSet& p_DataSet) const
 {
 	float variance = 0;
 	variance = std::pow(FindStandardDeviation(p_DataSet), 2.0);
-
-	/* Logic for standard deviation
-		// get the sum of the squared differences
-		for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
-			sum += std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
-
-		// determine the variance
-		if (m_Config == ECaluclatorConfig::Population)
-			variance = sum / p_DataSet.GetCount();
-		else if (m_Config == ECaluclatorConfig::Sample)
-			variance = sum / (p_DataSet.GetCount() - 1);
-	*/
 
 	return variance;
 }
@@ -179,11 +198,12 @@ DynamicDataSet CalculationManager::FindOutliers(const DynamicDataSet& p_DataSet)
 float CalculationManager::FindSumOfSquares(const DynamicDataSet& p_DataSet) const
 {
 	float sumSquares = 0;
+	float mean = FindMean(p_DataSet);
 
 	// find the sum of the squared difference between the value and the mean
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
 	{
-		int temp = std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
+		float temp = std::pow(p_DataSet.At(i) - mean, 2.0);
 		sumSquares += temp;
 	}
 
@@ -193,12 +213,13 @@ float CalculationManager::FindSumOfSquares(const DynamicDataSet& p_DataSet) cons
 float CalculationManager::FindMeanAbsoluteDeviation(const DynamicDataSet& p_DataSet) const
 {
 	float meanAbsDev = 0;
+	float mean = FindMean(p_DataSet);
 	float sum = 0;
 
 	// find the sum of the absolute difference between the value and the mean
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
 	{
-		int temp = std::abs(p_DataSet.At(i) - FindMean(p_DataSet));
+		float temp = std::abs(p_DataSet.At(i) - mean);
 		sum += temp;
 	}
 	meanAbsDev = sum / p_DataSet.GetCount();
@@ -214,7 +235,7 @@ float CalculationManager::FindRootMeanSquare(const DynamicDataSet& p_DataSet) co
 	// find the sum of the squared data
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
 	{
-		int temp = std::pow(p_DataSet.At(i), 2.0);
+		float temp = std::pow(p_DataSet.At(i), 2.0);
 		sum += temp;
 	}
 	rootMeanSq = std::sqrt(sum / p_DataSet.GetCount());
