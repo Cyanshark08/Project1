@@ -124,19 +124,20 @@ float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet)
 
 float CalculationManager::FindVariance(const DynamicDataSet& p_DataSet) const
 {
-	// variance = std::pow(FindStandardDeviation(p_DataSet), 2.0);
 	float variance = 0;
-	float sum = 0;
+	variance = std::pow(FindStandardDeviation(p_DataSet), 2.0);
 
-	// get the sum of the squared differences
-	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
-		sum += std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
+	/* Logic for standard deviation
+		// get the sum of the squared differences
+		for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+			sum += std::pow(p_DataSet.At(i) - FindMean(p_DataSet), 2.0);
 
-	// determine the variance
-	if (m_Config == ECaluclatorConfig::Population)
-		variance = sum / p_DataSet.GetCount();
-	else if (m_Config == ECaluclatorConfig::Sample)
-		variance = sum / (p_DataSet.GetCount() - 1);
+		// determine the variance
+		if (m_Config == ECaluclatorConfig::Population)
+			variance = sum / p_DataSet.GetCount();
+		else if (m_Config == ECaluclatorConfig::Sample)
+			variance = sum / (p_DataSet.GetCount() - 1);
+	*/
 
 	return variance;
 }
@@ -218,7 +219,10 @@ float CalculationManager::FindRootMeanSquare(const DynamicDataSet& p_DataSet) co
 
 float CalculationManager::FindStandardErrorOfMean(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float errorOfMean = 0;
+	errorOfMean = FindStandardDeviation(p_DataSet) / std::sqrt(p_DataSet.GetCount());
+
+	return errorOfMean;
 }
 
 float CalculationManager::FindSkewness(const DynamicDataSet& p_DataSet) const
