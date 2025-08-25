@@ -68,43 +68,37 @@ ECaluclatorConfig CalculationManager::GetCalcConfig() const
 
 float CalculationManager::FindMin(const DynamicDataSet& p_DataSet) const
 {
-	float result = 0;
-
-	if (m_Config == ECaluclatorConfig::Population)
-	{
-		//result code for population
-	}
-	else if (m_Config == ECaluclatorConfig::Sample)
-	{
-		//result code for sample
-	}
-
-	return result;
+	return p_DataSet[0];
 }
 
 float CalculationManager::FindMax(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	return p_DataSet[p_DataSet.GetCount() - 1];
 }
 
 float CalculationManager::FindRange(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	return p_DataSet[p_DataSet.GetCount() - 1] - p_DataSet[0];
 }
 
 float CalculationManager::FindSize(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	return p_DataSet.GetCount();
 }
 
 float CalculationManager::FindSum(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float sum = 0.f;
+
+	for (size_t i = 0; i < p_DataSet.GetCount(); i++)
+		sum += p_DataSet[i];
+
+	return sum;
 }
 
 float CalculationManager::FindMean(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	return FindSum(p_DataSet) / FindSize(p_DataSet);
 }
 
 float CalculationManager::FindMedian(const DynamicDataSet& p_DataSet) const
