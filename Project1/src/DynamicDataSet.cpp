@@ -109,7 +109,7 @@ size_t DynamicDataSet::InsertFromFile(const std::string& p_FileName)
 		{
 			for (size_t i = 0; i < token.length(); i++)
 			{
-				if (!(std::isdigit(token[i]) && token[i] != '-'))
+				if (!std::isdigit(token[i]) && token[i] != '-')
 					throw E_InvalidFileFormat(token, p_FileName);
 			}
 			this->Insert(std::stoi(token));
