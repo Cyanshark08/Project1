@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdint>
 
+
 //Interface class to create exception classes
 class ExceptionInterface
 {
@@ -11,6 +12,7 @@ public:
 private:
 	virtual std::string GetExceptionName() const = 0;
 	virtual std::string GetExceptionMessage() const = 0;
+	
 };
 
 class DynamicDataSet
@@ -18,6 +20,8 @@ class DynamicDataSet
 
 //Public Methods
 public:
+
+	//Default Constructor
 	DynamicDataSet() = default;
 
 	/*
@@ -91,6 +95,14 @@ public:
 	* @return The Frequency of a Value
 	*/
 	size_t NumberOfRecurrences(int32_t p_Value) const;
+
+	DynamicDataSet GetSubSet(size_t p_InitialIndex, size_t p_FinalIndex) const;
+
+	DynamicDataSet GetSubSet(float p_InitialElement, size_t p_FinalElement) const;
+
+	DynamicDataSet GetSubSet(bool (*p_ElementCondition)(float)) const;
+
+	DynamicDataSet GetSubSet(bool (*p_IndexCondition)(size_t)) const;
 
 	/* Get the Amount of Elements in the Set
 	* @return The Amount of Elements in the Set

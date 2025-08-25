@@ -187,6 +187,69 @@ size_t DynamicDataSet::NumberOfRecurrences(int32_t p_Value) const
 	return count;
 }
 
+DynamicDataSet DynamicDataSet::GetSubSet(size_t p_InitialIndex, size_t p_FinalIndex) const
+{
+	DynamicDataSet set;
+
+	for (size_t i = p_InitialIndex; i < p_FinalIndex; i++)
+		set.Insert(this->At(i));
+
+	return set;
+}
+
+DynamicDataSet DynamicDataSet::GetSubSet(float p_LowerBound, bool p_IncludeLower, size_t p_UpperBound, bool p_IncludeUpper) const
+{
+	DynamicDataSet set;
+
+	auto condition = [p_LowerBound, p_IncludeLower, p_UpperBound, p_IncludeUpper](float element)
+		{
+			bool satisfied = false;
+
+			if (p_LowerBound == element && p_IncludeLower)
+				satisfied = true;
+			else if (p_LowerBound > element)
+				satisfied = true;
+			else if (p_UpperBound > element)
+				satisfied = true;
+			else if (p_UpperBound == element && p_IncludeUpper)
+				satisfied = true;
+
+			return satisfied;
+		};
+
+	set = GetSubSet(condition);
+	 
+	return set;
+}
+
+auto func = [](size_t i) { return true;  };
+
+DynamicDataSet DynamicDataSet::GetSubSet(bool (*p_ElementCondition)(float)) const
+{
+	DynamicDataSet set;
+
+	for (size_t i = 0; i < m_DataCount; i++)
+	{
+		if (p_ElementCondition(this->At(i)))
+			set.Insert(this->At(i));
+	}
+
+	return set;
+}
+
+DynamicDataSet DynamicDataSet::GetSubSet(bool(*p_IndexCondition)(size_t)) const
+{
+	DynamicDataSet set;
+
+	for (size_t i = 0; i < m_DataCount; i++)
+	{
+		if (p_IndexCondition(i))
+			set.Insert(this->At(i));
+	}
+
+	return set;
+}
+
 size_t DynamicDataSet::GetCount() const
 {
 	return m_DataCount;

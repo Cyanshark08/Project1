@@ -5,7 +5,7 @@ int main()
 	// Create app instance
 	ConsoleApp app;
 
-	//Loop app until closed
+	// Loop app until closed
 	do
 	{
 		app.ManageApp();
