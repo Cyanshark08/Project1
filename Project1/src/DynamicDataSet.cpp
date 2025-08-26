@@ -201,23 +201,21 @@ DynamicDataSet DynamicDataSet::GetSubSet(float p_LowerBound, bool p_IncludeLower
 {
 	DynamicDataSet set;
 
-	auto condition = [p_LowerBound, p_IncludeLower, p_UpperBound, p_IncludeUpper](float element)
-		{
-			bool satisfied = false;
+	
+	for(size_t i = 0; i < m_DataCount; i++)
+	{
+		float element = this->At(i);
 
-			if (p_LowerBound == element && p_IncludeLower)
-				satisfied = true;
-			else if (p_LowerBound > element)
-				satisfied = true;
-			else if (p_UpperBound > element)
-				satisfied = true;
-			else if (p_UpperBound == element && p_IncludeUpper)
-				satisfied = true;
+		if (p_LowerBound == element && p_IncludeLower)
+			set.Insert(this->At(i));
+		else if (p_LowerBound < element && p_UpperBound > element)
+			set.Insert(this->At(i));
+		else if (p_UpperBound == element && p_IncludeUpper)
+			set.Insert(this->At(i));
+		else if (p_UpperBound < element)
+			break;
+	}
 
-			return satisfied;
-		};
-
-	set = GetSubSet(condition);
 	 
 	return set;
 }
@@ -253,6 +251,11 @@ DynamicDataSet DynamicDataSet::GetSubSet(bool(*p_IndexCondition)(size_t)) const
 size_t DynamicDataSet::GetCount() const
 {
 	return m_DataCount;
+}
+
+bool DynamicDataSet::IsEmpty() const
+{
+	return m_DataCount == 0;
 }
 
 const int32_t* DynamicDataSet::GetAddress() const

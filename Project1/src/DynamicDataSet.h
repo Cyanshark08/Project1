@@ -98,7 +98,7 @@ public:
 
 	DynamicDataSet GetSubSet(size_t p_InitialIndex, size_t p_FinalIndex) const;
 
-	DynamicDataSet GetSubSet(float p_InitialElement, size_t p_FinalElement) const;
+	DynamicDataSet GetSubSet(float p_LowerBound, bool p_IncludeLower, size_t p_UpperBound, bool p_IncludeUpper) const;
 
 	DynamicDataSet GetSubSet(bool (*p_ElementCondition)(float)) const;
 
@@ -108,6 +108,12 @@ public:
 	* @return The Amount of Elements in the Set
 	*/
 	size_t GetCount() const;
+
+	/*
+	* 
+	* 
+	*/
+	bool IsEmpty() const;
 
 	/* Get Address of Data Array in Memory
 	* @return The Memory Address of Data Array

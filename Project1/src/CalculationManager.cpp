@@ -43,7 +43,7 @@ std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSe
 
 CalculationManager::CalculationManager()
 	: m_CalcIndex(ECalculationIndex::Min),
-	m_Config(ECaluclatorConfig::Population)
+	m_Config(ECaluclatorConfig::Sample)
 {}
 
 void CalculationManager::SetConfig(ECaluclatorConfig p_NewConfig)
@@ -175,13 +175,27 @@ std::tuple<float, float, float> CalculationManager::FindQuartiles(const DynamicD
 
 float CalculationManager::FindQuartile(EQuartile p_QuartileNum, const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float result = -1;
+
+	switch (p_QuartileNum)
+	{
+	case EQuartile::One:
+		result = FindMedian(p_DataSet.GetSubSet(p_DataSet[0], true, FindMedian(p_DataSet), false));
+		break;
+	case EQuartile::Two:
+		result = FindMedian(p_DataSet);
+		break;
+	case EQuartile::Three:
+		result = FindMedian(p_DataSet.GetSubSet(FindMedian(p_DataSet), false, p_DataSet[p_DataSet.GetCount() - 1], true));
+		break;
+	}
+
+	return result;
 }
 
 float CalculationManager::FindInterquartileRange(const DynamicDataSet& p_DataSet) const
 {
-
-	return 0.0f;
+	return (FindQuartile(EQuartile::Three, p_DataSet) - FindQuartile(EQuartile::One, p_DataSet));
 }
 
 DynamicDataSet CalculationManager::FindOutliers(const DynamicDataSet& p_DataSet) const
