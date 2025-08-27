@@ -2,7 +2,7 @@
 #include "DynamicDataSet.h"
 
 // hello there
-enum class ECaluclatorConfig
+enum class ECalculatorConfig
 {
 	Population,
 	Sample
@@ -51,11 +51,11 @@ public:
 
 	CalculationManager();
 
-	void SetConfig(ECaluclatorConfig p_NewConfig);
+	void SetConfig(ECalculatorConfig p_NewConfig);
 	void SetCalcIndex(ECalculationIndex p_NewIndex);
 
 	ECalculationIndex GetCalcIndex() const;
-	ECaluclatorConfig GetCalcConfig() const;
+	ECalculatorConfig GetCalcConfig() const;
 
 //Calculation Methods
 
@@ -110,7 +110,7 @@ public:
 	};
 
 private:
-	ECaluclatorConfig m_Config;
+	ECalculatorConfig m_Config;
 	ECalculationIndex m_CalcIndex;
 
 };

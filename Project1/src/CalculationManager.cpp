@@ -43,10 +43,10 @@ std::string CalculationManager::GetFrequencyTable(const DynamicDataSet& p_DataSe
 
 CalculationManager::CalculationManager()
 	: m_CalcIndex(ECalculationIndex::Min),
-	m_Config(ECaluclatorConfig::Sample)
+	m_Config(ECalculatorConfig::Sample)
 {}
 
-void CalculationManager::SetConfig(ECaluclatorConfig p_NewConfig)
+void CalculationManager::SetConfig(ECalculatorConfig p_NewConfig)
 {
     m_Config = p_NewConfig;
 }
@@ -61,7 +61,7 @@ ECalculationIndex CalculationManager::GetCalcIndex() const
     return m_CalcIndex;
 }
 
-ECaluclatorConfig CalculationManager::GetCalcConfig() const
+ECalculatorConfig CalculationManager::GetCalcConfig() const
 {
 	return m_Config;
 }
@@ -105,6 +105,7 @@ float CalculationManager::FindMedian(const DynamicDataSet& p_DataSet) const
 {
 	float median = 0;
 	size_t position = 0;
+
 	if (p_DataSet.GetCount() % 2 != 0) // odd number of elements
 	{
 		// find the middle of the array
@@ -138,23 +139,19 @@ DynamicDataSet CalculationManager::FindModes(const DynamicDataSet& p_DataSet) co
 	}
 
 	int32_t highestFrequency = 0;
-
 	// find the highest frequency
 	for (auto it = frequencies.begin(); it != frequencies.end(); it++)
 	{
+		// update highestFrequency
 		if (it->second > highestFrequency)
-		{
 			highestFrequency = it->second;
-		}
 	}
 
 	// insert the numbers with the highest frequency 
 	for (auto it = frequencies.begin(); it != frequencies.end(); it++)
 	{
 		if (it->second == highestFrequency)
-		{
 			modes.Insert(it->first);
-		}
 	}
 
 	return modes;
@@ -163,19 +160,14 @@ DynamicDataSet CalculationManager::FindModes(const DynamicDataSet& p_DataSet) co
 float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet) const
 {
 	float standardDeviation = 0;
-	float mean = FindMean(p_DataSet);
 	size_t count = p_DataSet.GetCount();
-	float sum = 0;
-
-	// get the sum of the squared differences
-	for (size_t i = 0; i < count; i++)
-		sum += std::pow(p_DataSet.At(i) - mean, 2.0);
+	float sum = FindSumOfSquares(p_DataSet);
 
 	// determine the standardDeviation
-	if (m_Config == ECaluclatorConfig::Population)
+	if (m_Config == ECalculatorConfig::Population)
 		standardDeviation = std::sqrt(sum / count);
 
-	else if (m_Config == ECaluclatorConfig::Sample)
+	else if (m_Config == ECalculatorConfig::Sample)
 		standardDeviation = std::sqrt(sum / (count - 1));
 
 	return standardDeviation;
@@ -183,18 +175,12 @@ float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet)
 
 float CalculationManager::FindVariance(const DynamicDataSet& p_DataSet) const
 {
-	float variance = 0;
-	variance = std::pow(FindStandardDeviation(p_DataSet), 2.0);
-
-	return variance;
+	return std::pow(FindStandardDeviation(p_DataSet), 2.0);
 }
 
 float CalculationManager::FindMidRange(const DynamicDataSet& p_DataSet) const
 {
-	float midRange = 0;
-	midRange = (FindMin(p_DataSet) + FindMax(p_DataSet)) / 2.0;
-
-	return midRange;
+	return (FindMin(p_DataSet) + FindMax(p_DataSet)) / 2.0;
 }
 
 std::tuple<float, float, float> CalculationManager::FindQuartiles(const DynamicDataSet& p_DataSet) const
@@ -242,12 +228,9 @@ float CalculationManager::FindSumOfSquares(const DynamicDataSet& p_DataSet) cons
 	float sumSquares = 0;
 	float mean = FindMean(p_DataSet);
 
-	// find the sum of the squared difference between the value and the mean
+	// calculate the summation
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
-	{
-		float temp = std::pow(p_DataSet.At(i) - mean, 2.0);
-		sumSquares += temp;
-	}
+		sumSquares += std::pow(p_DataSet.At(i) - mean, 2.0);
 
 	return sumSquares;
 }
@@ -258,7 +241,7 @@ float CalculationManager::FindMeanAbsoluteDeviation(const DynamicDataSet& p_Data
 	float mean = FindMean(p_DataSet);
 	float sum = 0;
 
-	// find the sum of the absolute difference between the value and the mean
+	// calculate the summation
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
 	{
 		float temp = std::abs(p_DataSet.At(i) - mean);
@@ -274,12 +257,10 @@ float CalculationManager::FindRootMeanSquare(const DynamicDataSet& p_DataSet) co
 	float rootMeanSq = 0;
 	float sum = 0;
 
-	// find the sum of the squared data
+	// calculate the summation
 	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
-	{
-		float temp = std::pow(p_DataSet.At(i), 2.0);
-		sum += temp;
-	}
+		sum += std::pow(p_DataSet.At(i), 2.0);
+
 	rootMeanSq = std::sqrt(sum / p_DataSet.GetCount());
 
 	return rootMeanSq;
@@ -287,20 +268,75 @@ float CalculationManager::FindRootMeanSquare(const DynamicDataSet& p_DataSet) co
 
 float CalculationManager::FindStandardErrorOfMean(const DynamicDataSet& p_DataSet) const
 {
-	float errorOfMean = 0;
-	errorOfMean = FindStandardDeviation(p_DataSet) / std::sqrt(p_DataSet.GetCount());
-
-	return errorOfMean;
+	return FindStandardDeviation(p_DataSet) / std::sqrt(p_DataSet.GetCount());
 }
 
 float CalculationManager::FindSkewness(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float skewness = 0;
+	float count = p_DataSet.GetCount();
+	float mean = FindMean(p_DataSet);
+	float sum = 0;
+
+	if (m_Config == ECalculatorConfig::Population)
+	{ 
+		// calculate the summation
+		for (size_t i = 0; i < count; i++)
+		{
+			float temp = std::pow(p_DataSet.At(i) - mean, 3.0);
+			sum += temp;
+		}
+
+		// determine the skewness
+		skewness = sum / (count * (std::pow(FindStandardDeviation(p_DataSet), 3.0)));
+	}
+	else if (m_Config == ECalculatorConfig::Sample)
+	{
+		// calculate the summation
+		for (size_t i = 0; i < count; i++)
+		{
+			float temp = std::pow((p_DataSet.At(i) - mean) / FindStandardDeviation(p_DataSet), 3.0);
+			sum += temp;
+		}
+
+		// determine the skewness
+		skewness = (count / ((count - 1) * (count - 2))) * sum;
+	}
+	return skewness;
 }
 
 float CalculationManager::FindKurtosis(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float kurtosis = 0;
+	float count = p_DataSet.GetCount();
+	float mean = FindMean(p_DataSet);
+	float sum = 0;
+
+	if (m_Config == ECalculatorConfig::Population)
+	{
+		// calculate the summation
+		for (size_t i = 0; i < count; i++)
+		{
+			float temp = std::pow(p_DataSet.At(i) - mean, 4.0);
+			sum += temp;
+		}
+
+		// determine the kurtosis
+		kurtosis = sum / (count * (std::pow(FindStandardDeviation(p_DataSet), 4.0)));
+	}
+	else if (m_Config == ECalculatorConfig::Sample)
+	{
+		// calculate the summation 
+		for (size_t i = 0; i < count; i++)
+		{
+			float temp = std::pow((p_DataSet.At(i) - mean) / FindStandardDeviation(p_DataSet), 4.0);
+			sum += temp;
+		}
+
+		// determine the skewness
+		kurtosis = ((count * (count + 1))/ ((count - 1) * (count - 2) * (count - 3))) * sum;
+	}
+	return kurtosis;
 }
 
 float CalculationManager::FindKurtosisExcess(const DynamicDataSet& p_DataSet) const
@@ -310,7 +346,7 @@ float CalculationManager::FindKurtosisExcess(const DynamicDataSet& p_DataSet) co
 
 float CalculationManager::FindCoefficientOfVariation(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	return FindStandardDeviation(p_DataSet) / FindMean(p_DataSet);
 }
 
 float CalculationManager::FindRelativeStandardDeviation(const DynamicDataSet& p_DataSet) const
