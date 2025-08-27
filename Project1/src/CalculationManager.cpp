@@ -123,7 +123,41 @@ float CalculationManager::FindMedian(const DynamicDataSet& p_DataSet) const
 
 DynamicDataSet CalculationManager::FindModes(const DynamicDataSet& p_DataSet) const
 {
-	return DynamicDataSet();
+	DynamicDataSet modes;
+
+	// <digit, frequency> 
+	std::map<int32_t, size_t> frequencies;
+
+	// get the frequencies
+	for (size_t i = 0, count = p_DataSet.GetCount(); i < count; i++)
+	{
+		if (frequencies.find(p_DataSet[i]) != frequencies.end())
+			frequencies[p_DataSet[i]]++;
+		else
+			frequencies[p_DataSet[i]] = 1ui64;
+	}
+
+	int32_t highestFrequency = 0;
+
+	// find the highest frequency
+	for (auto it = frequencies.begin(); it != frequencies.end(); it++)
+	{
+		if (it->second > highestFrequency)
+		{
+			highestFrequency = it->second;
+		}
+	}
+
+	// insert the numbers with the highest frequency 
+	for (auto it = frequencies.begin(); it != frequencies.end(); it++)
+	{
+		if (it->second == highestFrequency)
+		{
+			modes.Insert(it->first);
+		}
+	}
+
+	return modes;
 }
 
 float CalculationManager::FindStandardDeviation(const DynamicDataSet& p_DataSet) const
@@ -315,7 +349,7 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 		break;
 
 	case ECalculationIndex::Mean:
-		ss << "\n\t" << std::setw(WIDTH_1) << "Mean" << std::setw(WIDTH_2) << " : " << FindSize(p_DataSet);
+		ss << "\n\t" << std::setw(WIDTH_1) << "Mean" << std::setw(WIDTH_2) << " : " << FindMean(p_DataSet);
 		break;
 
 	case ECalculationIndex::Median:
