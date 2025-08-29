@@ -25,10 +25,11 @@ public:
 	DynamicDataSet() = default;
 
 	/*
+	* PreCondition: Another DynamicDataSet is passed 
 	* 
-	* 
-	* 
-	* 
+	* PostCondition: Deep copy the values of the other DynamicDataSet
+	* @param Valid DynamicDataSet is passed
+	* @return Copied DynamicDataSet
 	*/
 	DynamicDataSet(const DynamicDataSet& p_Other);
 
@@ -96,12 +97,41 @@ public:
 	*/
 	size_t NumberOfRecurrences(int32_t p_Value) const;
 
+	/* 
+	* PreCondition: p_InitialIndex and p_FinalIndex must be valid indices within the Dataset
+	* 
+	* PostConditon: Return a data set with numbers between p_InitialIndex and p_FinalIndex
+	* @param The Initial and Final Index of the SubSet
+	* @return A Data Set with the values between the Initial and Final Index
+	*/
 	DynamicDataSet GetSubSet(size_t p_InitialIndex, size_t p_FinalIndex) const;
 
+	/*
+	* PreCondition: LowerBound and UpperBound must be positive float values within the set. Valid Boolean statements to determine
+	* if the lowerBound and UpperBound will be included in the data set.
+	* 
+	* PostCondition: Return a data set with numbers between (or including) the Lowerbound and UpperBound
+	* @param The LowerBound and UpperBound of the data set. Boolean statements to include the LowerBound and UpperBound
+	* @return a data set containing values between the LowerBound and UpperBound (or including them too)
+	*/
 	DynamicDataSet GetSubSet(float p_LowerBound, bool p_IncludeLower, size_t p_UpperBound, bool p_IncludeUpper) const;
 
+	/*
+	* PreCondition: Condition to determine if the element should be included in the dataset
+	* 
+	* PostCondition: Return a data set with all values that meet the condition
+	* @param The condition to insert elements into the data set
+	* @return A data set with all elements that meet the condition
+	*/
 	DynamicDataSet GetSubSet(bool (*p_ElementCondition)(float)) const;
 
+	/*
+	* PreCondition: Condition to determine if the element at the index should be included in the dataset
+	* 
+	* PostCondition: Return a data set with all the values that meet the condition
+	* @param The condition to insert elements into the dataset
+	* @return A data set containing all elements that meet the condition
+	*/
 	DynamicDataSet GetSubSet(bool (*p_IndexCondition)(size_t)) const;
 
 	/* Get the Amount of Elements in the Set
@@ -109,8 +139,8 @@ public:
 	*/
 	size_t GetCount() const;
 
-	/*
-	* 
+	/* Determine if the dataset is empty
+	* @return true if the size = 0, otherwise return false
 	* 
 	*/
 	bool IsEmpty() const;
