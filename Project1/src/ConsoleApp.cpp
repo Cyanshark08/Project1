@@ -51,7 +51,7 @@ void ConsoleApp::DisplayMenu()
 			std::system("cls");	
 			printf("\n\tAddress  : %s\n\t", (m_DataSet.GetCount() > 0 ? m_DataSet.GetAddressAsString().c_str() : "NULL (no data set created)"));
 			printf("\n\tData Set : %s\n\t", (m_DataSet.GetCount() > 1 ? m_DataSet.to_string().c_str() : "Data Set requires at least 2 values."));
-			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECaluclatorConfig::Population ? "Population" : "Sample"));
+			printf("\n\tConfig   : %s\n\t", (m_CManager.GetCalcConfig() == ECalculatorConfig::Population ? "Population" : "Sample"));
 			printf("\n\tDescriptive Statistics Calculator Main Menu");
 			printf("\n\t%s", std::string(110, 205).c_str());
 			printf("\n\t 0. Exit");
@@ -283,13 +283,13 @@ void ConsoleApp::DisplayMenu()
 		case 'A': // switch to sample
 		{
 			printf("\n\tData Set configured for Sample.");
-			m_CManager.SetConfig(ECaluclatorConfig::Sample);
+			m_CManager.SetConfig(ECalculatorConfig::Sample);
 			break;
 		}
 		case 'B': // switch to population
 		{
 			printf("\n\tData Set configured for Population.");
-			m_CManager.SetConfig(ECaluclatorConfig::Population);
+			m_CManager.SetConfig(ECalculatorConfig::Population);
 			break;
 		}
 		case 'R': // return
