@@ -6,6 +6,12 @@ ConsoleApp::ConsoleApp()
 	m_MenuState(EMenuState::Main)
 {}
 
+/*
+* 
+* 
+* 
+* 
+*/
 void ConsoleApp::ManageApp()
 {
 	printf("\n\tCalculator State : %c", (char)m_CManager.GetCalcIndex());

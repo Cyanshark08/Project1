@@ -130,6 +130,9 @@ public:
 	*/
 	std::string to_string() const;
 
+
+	std::string to_string(size_t p_Width) const;
+
 	void Clean();
 
 	~DynamicDataSet();

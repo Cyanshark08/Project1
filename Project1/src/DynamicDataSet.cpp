@@ -279,6 +279,19 @@ std::string DynamicDataSet::to_string() const
 	return ss.str();
 }
 
+std::string DynamicDataSet::to_string(size_t p_Width) const
+{
+	std::stringstream ss;
+	for (size_t i = 0; i < m_DataCount; i++)
+	{
+		if(i % MAX_ARR_ELEMENTS_ACROSS)
+			ss << "\n\t" <<  std::setw(p_Width);
+		ss << std::setw(4) << this->At(i) << " ";
+	}
+
+	return ss.str();
+}
+
 void DynamicDataSet::Clean()
 {
 	delete[] m_DataPtr;
