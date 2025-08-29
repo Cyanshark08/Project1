@@ -341,9 +341,39 @@ float CalculationManager::FindKurtosis(const DynamicDataSet& p_DataSet) const
 
 float CalculationManager::FindKurtosisExcess(const DynamicDataSet& p_DataSet) const
 {
+	float count = p_DataSet.GetCount();
+	float mean = FindMean(p_DataSet);
+	float standardDeviation = FindStandardDeviation(p_DataSet);
+	float sum = 0;
+
+	if (m_Config == ECalculatorConfig::Population)
+	{
+		// Population excess kurtosis
+		for (size_t i = 0; i < count; i++)
+		{
+			float temp = std::pow(p_DataSet.At(i) - mean, 4.0);
+			sum += temp;
+		}
+		return (sum / (count * std::pow(standardDeviation, 4.0))) - 3.0f;
+	}
+	else if (m_Config == ECalculatorConfig::Sample)
+	{
+		// Sample excess kurtosis
+		for (size_t i = 0; i < count; i++)
+		{
+			float z_score = (p_DataSet.At(i) - mean) / standardDeviation;
+			float temp = std::pow(z_score, 4.0);
+			sum += temp;
+		}
+
+		float term1 = (count * (count + 1)) / ((count - 1) * (count - 2) * (count - 3));
+		float term2 = (3 * std::pow(count - 1, 2)) / ((count - 2) * (count - 3));
+
+		return (term1 * sum) - term2;
+	}
+
 	return 0.0f;
 }
-
 float CalculationManager::FindCoefficientOfVariation(const DynamicDataSet& p_DataSet) const
 {
 	return FindStandardDeviation(p_DataSet) / FindMean(p_DataSet);
@@ -351,7 +381,11 @@ float CalculationManager::FindCoefficientOfVariation(const DynamicDataSet& p_Dat
 
 float CalculationManager::FindRelativeStandardDeviation(const DynamicDataSet& p_DataSet) const
 {
-	return 0.0f;
+	float standardDeviation = FindStandardDeviation(p_DataSet);
+	float mean = FindMean(p_DataSet);
+
+	// RSD = (standard deviation / mean) × 100%
+	return (standardDeviation / mean) * 100.0f;
 }
 
 std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p_CalculationIndex, const DynamicDataSet& p_DataSet) const
