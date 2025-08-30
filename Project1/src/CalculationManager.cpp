@@ -220,7 +220,20 @@ float CalculationManager::FindInterquartileRange(const DynamicDataSet& p_DataSet
 
 DynamicDataSet CalculationManager::FindOutliers(const DynamicDataSet& p_DataSet) const
 {
-	return DynamicDataSet();
+	DynamicDataSet outliers;
+
+	for (size_t i = 0; i < p_DataSet.GetCount(); i++)
+	{
+		float cachedElement = p_DataSet[i];
+		float cachedIQR = FindInterquartileRange(p_DataSet);
+		if(cachedElement < FindQuartile(EQuartile::One, p_DataSet) - cachedIQR * 1.5f
+		  || cachedElement > FindQuartile(EQuartile::Three, p_DataSet) + cachedIQR * 1.5f)
+		{
+			outliers.Insert(cachedElement);
+		}
+	}
+
+	return outliers;
 }
 
 float CalculationManager::FindSumOfSquares(const DynamicDataSet& p_DataSet) const
@@ -440,7 +453,7 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 		break;
 
 	case ECalculationIndex::Outliers:
-		ss << "\n\t" << std::setw(WIDTH_1) << "Outliers" << std::setw(WIDTH_2) << " : " << FindOutliers(p_DataSet).to_string();
+		ss << "\n\t" << std::setw(WIDTH_1) << "Outliers" << std::setw(WIDTH_2) << " : " << FindOutliers(p_DataSet).to_string(WIDTH_1 + WIDTH_2, 4, true);
 		break;
 
 	case ECalculationIndex::SumOfSquares:

@@ -14,8 +14,6 @@ ConsoleApp::ConsoleApp()
 */
 void ConsoleApp::ManageApp()
 {
-	printf("\n\tCalculator State : %c", (char)m_CManager.GetCalcIndex());
-
 	switch (m_AppState)
 	{
 	case EAppState::Intro:
