@@ -212,14 +212,17 @@ void ConsoleApp::DisplayMenu()
 			DynamicDataSet deletedValues;
 			// get the range of values
 			int32_t startValue = Input::inputInteger("\n\tSpecify a starting integer value to be deleted from the Dataset: ");
-			int32_t endValue = Input::inputInteger("\n\tSpecify an ending integer value to be deleted from the Dataset: ");
+			int32_t endValue = Input::inputInteger("\n\tSpecify an ending integer value to be deleted from the Dataset: ", startValue, true);
 
+			bool found = false;
 			try
-			{
+			{	
+				// delete the value if it falls in between the range
 				for (size_t i = 0; i < m_DataSet.GetCount(); i++)
 				{
 					if (m_DataSet.At(i) >= startValue && m_DataSet.At(i) <= endValue)
 					{
+						found = true;
 						deletedValues.Insert(m_DataSet.At(i));
 						m_DataSet.DeleteAt(i);
 						i--;
@@ -234,7 +237,11 @@ void ConsoleApp::DisplayMenu()
 				return;
 			}
 
-			printf("\n\tCONFIRMATION: Element(s): %s in range (%i..%i) have been deleted", deletedValues.to_string().c_str(), startValue, endValue);
+			// print confirmation message
+			if (found)
+				printf("\n\tCONFIRMATION: Element(s): %s in range (%i..%i) have been deleted", deletedValues.to_string().c_str(), startValue, endValue);
+			else
+				printf("\n\tERROR: No element in range (%i..%i) has been found and deleted.", startValue, endValue);
 			break;
 		}
 		case 'C': // delete all values
