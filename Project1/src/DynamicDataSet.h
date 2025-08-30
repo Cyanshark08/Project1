@@ -160,11 +160,17 @@ public:
 	*/
 	std::string to_string() const;
 
+	bool isEven() const;
 
-	std::string to_string(size_t p_Width) const;
+	bool isOdd() const;
+
+
+	std::string to_string(size_t p_Width, bool p_IgnoreInitialLine) const;
+
+	std::string to_string(size_t p_Width, size_t p_LineWidth, bool p_IgnoreInitialLine) const;
 
 	void Clean();
-
+	
 	~DynamicDataSet();
 
 //Exception Errors

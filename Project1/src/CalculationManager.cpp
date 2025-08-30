@@ -200,13 +200,13 @@ float CalculationManager::FindQuartile(EQuartile p_QuartileNum, const DynamicDat
 	switch (p_QuartileNum)
 	{
 	case EQuartile::One:
-		result = FindMedian(p_DataSet.GetSubSet(p_DataSet[0], true, FindMedian(p_DataSet), false));
+		result = FindMedian(p_DataSet.GetSubSet(p_DataSet[0], true, FindMedian(p_DataSet), p_DataSet.isEven()));
 		break;
 	case EQuartile::Two:
 		result = FindMedian(p_DataSet);
 		break;
 	case EQuartile::Three:
-		result = FindMedian(p_DataSet.GetSubSet(FindMedian(p_DataSet), false, p_DataSet[p_DataSet.GetCount() - 1], true));
+		result = FindMedian(p_DataSet.GetSubSet(FindMedian(p_DataSet), p_DataSet.isEven(), p_DataSet[p_DataSet.GetCount() - 1], true));
 		break;
 	}
 
@@ -410,7 +410,7 @@ std::string CalculationManager::GetCalculationResultAsString(ECalculationIndex p
 		break;
 
 	case ECalculationIndex::Mode:
-		ss << "\n\t" << std::setw(WIDTH_1) << "Modes" << std::setw(WIDTH_2) << " : " << FindModes(p_DataSet).to_string();
+		ss << "\n\t" << std::setw(WIDTH_1) << "Mode(s)" << std::setw(WIDTH_2) << " : " << FindModes(p_DataSet).to_string(WIDTH_1 + WIDTH_2, 4, true);
 		break;
 
 	case ECalculationIndex::SDeviation:

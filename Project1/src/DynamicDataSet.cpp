@@ -279,13 +279,30 @@ std::string DynamicDataSet::to_string() const
 	return ss.str();
 }
 
-std::string DynamicDataSet::to_string(size_t p_Width) const
+bool DynamicDataSet::isEven() const
+{
+	return m_DataCount % 2 == 0;
+}
+
+bool DynamicDataSet::isOdd() const
+{
+	return m_DataCount % 2 == 1;
+}
+
+std::string DynamicDataSet::to_string(size_t p_Width, size_t p_LineWidth, bool p_IgnoreInitialLine) const
 {
 	std::stringstream ss;
 	for (size_t i = 0; i < m_DataCount; i++)
 	{
-		if(i % MAX_ARR_ELEMENTS_ACROSS)
-			ss << "\n\t" <<  std::setw(p_Width);
+		if (i % p_LineWidth == 0)
+			ss << "\n\t" << std::setw(p_Width) << "";
+
+		if (i == 0 && p_IgnoreInitialLine)
+		{
+			ss << std::setw(4) << this->At(i) << " ";
+			continue;
+		}
+
 		ss << std::setw(4) << this->At(i) << " ";
 	}
 
