@@ -134,41 +134,82 @@ public:
 	*/
 	DynamicDataSet GetSubSet(bool (*p_IndexCondition)(size_t)) const;
 
-	/* Get the Amount of Elements in the Set
+	/* 
+	* Precondition: None
+	* 
+	* Postcondition: Get the Amount of Elements in the Set
+	* 
 	* @return The Amount of Elements in the Set
 	*/
 	size_t GetCount() const;
 
-	/* Determine if the dataset is empty
+	/* 
+	* Precondition: None
+	* 
+	* Postcondition: Determines if the dataset is empty (true if empty; false otherwise)
+	* 
 	* @return true if the size = 0, otherwise return false
 	* 
 	*/
 	bool IsEmpty() const;
 
-	/* Get Address of Data Array in Memory
+	/*
+	* Precondition: None
+	* 
+	* Postcondition: Get Address of Data Array in Memory
 	* @return The Memory Address of Data Array
 	*/
 	const int32_t* GetAddress() const;
 
-	/* Get Address of Data Array in Memory As String
+	/*
+	* Precondition: Data Array should not be null
+	* 
+	* Postcondition: Get Address of Data Array in Memory As String
 	* @return The Memory Address of Data Array As a String
 	*/
 	std::string GetAddressAsString() const;
 
-	/* Return Data Set as String
+	/* 
+	* Precondition: None
+	* 
+	* Postcondition: Return Data Set as String
 	* @return The Data Set as a String
 	*/
 	std::string to_string() const;
 
+	/*
+	* Precondition: None
+	* 
+	* Postcondition: Returns true if data set is Even
+	* @return True if data set is Even; else False.
+	*/
 	bool isEven() const;
 
+	/*
+	* Precondition: None
+	* 
+	* Postcondition: Returns False if data set is Even
+	* @return False if data set is Even; else True.
+	*/
 	bool isOdd() const;
 
-
-	std::string to_string(size_t p_Width, bool p_IgnoreInitialLine) const;
-
+	/*
+	* Precondition: Provide initial width per line of string, number of elements per string,
+	* and whether to ignore the initial width on the first line
+	* 
+	* Postcondition: Return Data Set as a formatted String
+	* @param p_Width: Initial Width of String per line
+	* @param p_LineWidth: Number of Elements per line
+	* @param p_IgnoreInitialLine: Whether to ignore the initial width formatting on the first line
+	* @return The Data Set as a formatted String
+	*/
 	std::string to_string(size_t p_Width, size_t p_LineWidth, bool p_IgnoreInitialLine) const;
 
+	/*
+	* Precondition: None
+	* 
+	* Postcondition: Clears all elements from data set
+	*/
 	void Clean();
 	
 	~DynamicDataSet();

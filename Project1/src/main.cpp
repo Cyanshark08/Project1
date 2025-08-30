@@ -1,3 +1,15 @@
+/*
+* Collaborators: 
+* - Andrew Nguyen
+* - Jaime Gutierrez
+* - Landon Mendoza
+* 
+* Date: 8/30/2025
+* 
+* Project: Statistics Calculator with implemented Statistic functions & DynamicDataSet (dynamic array) data structure
+* 
+*/
+
 #include "ConsoleApp.h"
 
 int main()
