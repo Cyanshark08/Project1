@@ -53,6 +53,8 @@ public:
 	*/
 	void Clean();
 
+	~ConsoleApp();
+
 private:
 	CalculationManager m_CManager;
 	DynamicDataSet m_DataSet;

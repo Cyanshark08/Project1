@@ -6,12 +6,6 @@ ConsoleApp::ConsoleApp()
 	m_MenuState(EMenuState::Main)
 {}
 
-/*
-* 
-* 
-* 
-* 
-*/
 void ConsoleApp::ManageApp()
 {
 	switch (m_AppState)
@@ -379,4 +373,9 @@ EAppState ConsoleApp::GetState() const
 void ConsoleApp::Clean()
 {
 	m_DataSet.Clean();
+}
+
+ConsoleApp::~ConsoleApp()
+{
+	this->Clean();
 }

@@ -22,4 +22,6 @@ int main()
 	{
 		app.ManageApp();
 	} while (app.GetState() != EAppState::Closed);
+
+	// Clean App in Deconstructor
 }
